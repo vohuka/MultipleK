@@ -7,6 +7,19 @@ import { NextArrow, PrevArrow } from "./CustomArrow";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import {
+  faBattery,
+  faChevronRight,
+  faComputer,
+  faDesktop,
+  faHardDrive,
+  faLaptop,
+  faMemory,
+  faMicrochip,
+  faPersonBreastfeeding,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 function SlideImage({ srcBg, srcLap, srcTitle }) {
   return (
     <a className={style.slideImage} href="" target="_blank">
@@ -36,7 +49,7 @@ function NewestLap({ products }) {
             <Card as="a" href="#" className={`${style.customCard} card`}>
               <Card.Img variant="top" src={product.images[0].base64} />
               <Card.Body style={{ minHeight: 100 }}>
-                <Card.Title className="text-center">Card title</Card.Title>
+                <Card.Title className="text-center">{product.name}</Card.Title>
                 <Card.Text
                   style={{
                     overflow: "hidden",
@@ -44,9 +57,35 @@ function NewestLap({ products }) {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  This is a longer card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
+                  <h4 className="text-primary fw-bold text-center">
+                    {Number(product.price).toLocaleString("vi-VN")} đ
+                  </h4>
+                  <div className={style.box}>
+                    <p>
+                      <FontAwesomeIcon icon={faMicrochip} className="ms-2" />{" "}
+                      {product.cpu}{" "}
+                    </p>
+                    <p>
+                      <FontAwesomeIcon icon={faMemory} className="ms-2" />{" "}
+                      {product.ram} RAM
+                    </p>
+                    <p>
+                      <FontAwesomeIcon icon={faHardDrive} className="ms-2" />{" "}
+                      {product.storage}
+                    </p>
+                    <p>
+                      <FontAwesomeIcon icon={faBattery} className="ms-2" />{" "}
+                      {product.pin} Battery
+                    </p>
+                    <p>
+                      <FontAwesomeIcon icon={faLaptop} className="ms-2" />{" "}
+                      {product.brand}
+                    </p>
+                    <p>
+                      <FontAwesomeIcon icon={faDesktop} className="ms-2" />{" "}
+                      {product.graphic_card}
+                    </p>
+                  </div>
                 </Card.Text>
               </Card.Body>
             </Card>

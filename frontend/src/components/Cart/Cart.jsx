@@ -55,7 +55,7 @@ export default function Cart() {
     (sum, item) => sum + item.quantity * item.price,
     0
   );
-  const shipping = 5.0;
+  const shipping = 50000;
   const total = subtotal + shipping;
 
   return (
@@ -102,10 +102,9 @@ export default function Cart() {
                     +
                   </Button>
                 </div>
-                <div>€ {item.price.toFixed(2) * item.quantity}</div>
+                <div>{(item.price * item.quantity).toLocaleString("vi-VN")} đ</div>
                 <Button
-                  variant="link"
-                  className="text-danger"
+                  variant="danger"
                   onClick={() => removeFromCart(item.id)}
                 >
                   &times;
@@ -122,11 +121,11 @@ export default function Cart() {
             <hr />
             <div className="d-flex justify-content-between">
               <span>Items:</span>
-              <strong>€ {subtotal.toFixed(2)}</strong>
+              <strong>{subtotal.toLocaleString("vi-VN")}₫</strong>
             </div>
             <div className="d-flex justify-content-between mt-2">
               <span>Shipping:</span>
-              <strong>€ {shipping.toFixed(2)}</strong>
+              <strong>{shipping.toLocaleString("vi-VN")}₫</strong>
             </div>
             <Form.Group className="mt-3">
               <Form.Label>Give Code</Form.Label>
@@ -135,7 +134,7 @@ export default function Cart() {
             <hr />
             <div className="d-flex justify-content-between">
               <span>Total Price:</span>
-              <strong>€ {total.toFixed(2)}</strong>
+              <strong>{total.toLocaleString("vi-VN")}₫</strong>
             </div>
             <Button
               variant="dark"

@@ -1,11 +1,13 @@
 import {
-  faArrowDown,
+  faBattery,
   faChevronRight,
   faComputer,
   faDesktop,
   faHardDrive,
+  faLaptop,
   faMemory,
   faMicrochip,
+  faPersonBreastfeeding,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
@@ -57,7 +59,7 @@ const LeftSidebar = ({ filters, setFilters }) => {
     graphic_cards: false,
     oss: false,
     pins: false,
-    screen_sizes: false,
+    screen_size: false,
   });
 
   const toggleSection = (key) =>
@@ -91,7 +93,7 @@ const LeftSidebar = ({ filters, setFilters }) => {
     <>
       <FilterSection
         title="Thương hiệu"
-        icon={faComputer}
+        icon={faPersonBreastfeeding}
         options={filterOptions.brands || []}
         open={openSections.brands}
         toggle={toggleSection}
@@ -101,6 +103,7 @@ const LeftSidebar = ({ filters, setFilters }) => {
       />
       <FilterSection
         title="CPU"
+        icon={faComputer}
         options={filterOptions.cpus || []}
         open={openSections.cpus}
         toggle={toggleSection}
@@ -110,6 +113,7 @@ const LeftSidebar = ({ filters, setFilters }) => {
       />
       <FilterSection
         title="RAM"
+        icon={faMemory}
         options={filterOptions.rams || []}
         open={openSections.rams}
         toggle={toggleSection}
@@ -119,6 +123,7 @@ const LeftSidebar = ({ filters, setFilters }) => {
       />
       <FilterSection
         title="Ổ cứng"
+        icon={faHardDrive}
         options={filterOptions.storages || []}
         open={openSections.storages}
         toggle={toggleSection}
@@ -128,6 +133,7 @@ const LeftSidebar = ({ filters, setFilters }) => {
       />
       <FilterSection
         title="Card đồ họa"
+        icon={faMicrochip}
         options={filterOptions.graphic_cards || []}
         open={openSections.graphic_cards}
         toggle={toggleSection}
@@ -137,6 +143,7 @@ const LeftSidebar = ({ filters, setFilters }) => {
       />
       <FilterSection
         title="Hệ điều hành"
+        icon={faLaptop}
         options={filterOptions.oss || []}
         open={openSections.oss}
         toggle={toggleSection}
@@ -146,6 +153,7 @@ const LeftSidebar = ({ filters, setFilters }) => {
       />
       <FilterSection
         title="Pin"
+        icon={faBattery}
         options={filterOptions.pins || []}
         open={openSections.pins}
         toggle={toggleSection}
@@ -156,11 +164,11 @@ const LeftSidebar = ({ filters, setFilters }) => {
       <FilterSection
         title="Kích cỡ màn hình"
         icon={faDesktop}
-        options={(filterOptions.screen_sizes || []).map((size) => size + '"')}
-        open={openSections.screen_sizes}
+        options={(filterOptions.screen_size || []).map((size) => size + '"')} // Thêm dấu " vào tên option
+        open={openSections.screen_size}
         toggle={toggleSection}
-        sectionKey="screen_sizes"
-        selected={filters.screen_sizes || []}
+        sectionKey="screen_size"
+        selected={filters.screen_size || []}
         onChange={handleCheckboxChange}
       />
     </>
@@ -172,7 +180,7 @@ const RightSidebar = ({ filters, sortBy }) => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const limit = 3;
+  const limit = 10;
   useEffect(() => {
     const fetchAll = async () => {
       try {
@@ -193,16 +201,23 @@ const RightSidebar = ({ filters, sortBy }) => {
     graphic_cards: "graphic_card",
     oss: "os",
     pins: "pin",
-    screen_sizes: "screen_size",
+    screen_size: "screen_size",
     name,
   };
   useEffect(() => {
     const filtered = allProducts.filter((p) => {
       return Object.keys(filters).every((key) => {
-        //Nếu key không có trong filters hoặc không có giá trị nào được chọn thì bỏ qua
         if (!filters[key]?.length) return true;
         const productKey = filterKeyMap[key];
-        return filters[key].some((f) => p[productKey]?.toString().includes(f));
+        return filters[key].some((f) => {
+          const productValue = p[productKey]?.toString().toLowerCase();
+          const filterValue = f.toString().toLowerCase();
+          if (key === "screen_size") {
+            // Loại bỏ dấu " từ filterValue để so sánh chính xác
+            return productValue === filterValue.replace(/"/g, "");
+          }
+          return productValue.includes(filterValue);
+        });
       });
     });
     if (sortBy === "name") {
@@ -231,10 +246,12 @@ const RightSidebar = ({ filters, sortBy }) => {
               >
                 <div className="card">
                   <Card className="product-card">
-                    <div className="prod__tag">
-                      <div className="triangle"></div>
-                      <span className="tagTitle">MỚI</span>
-                    </div>
+                    {product.id % 2 === 0 && (
+                      <div className="prod__tag">
+                        <div className="triangle"></div>
+                        <span className="tagTitle">HOT</span>
+                      </div>
+                    )}
                     <Card.Img variant="top" src={product.images?.[0]} />
                     <Card.Body>
                       <Form.Check label="Thêm vào phần so sánh" />
@@ -248,7 +265,7 @@ const RightSidebar = ({ filters, sortBy }) => {
                       <Card.Text className="product-price">
                         Giá:{" "}
                         {product.price
-                          ? product.price.toLocaleString("vi-VN") + "₫"
+                          ? Number(product.price).toLocaleString("vi-VN") + "₫"
                           : "Liên hệ"}
                       </Card.Text>
                     </Card.Body>

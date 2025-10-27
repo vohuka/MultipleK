@@ -1,5 +1,6 @@
 // Register.jsx
-import React, { useState } from "react";
+import { useState } from "react";
+import { InputGroup } from "react-bootstrap";
 import { Row, Col, Form, Button, Alert } from "react-bootstrap";
 
 import { useNavigate } from "react-router-dom";
@@ -27,6 +28,7 @@ const Register = () => {
   const [validated, setValidated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMsg, setsubmitMsg] = useState({ type: "", text: "" });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -136,17 +138,26 @@ const Register = () => {
               <Form.Label>
                 Mật Khẩu <span className="text-danger">*</span>
               </Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                minLength={6}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Vui lòng nhập mật khẩu ít nhất 6 ký tự.
-              </Form.Control.Feedback>
+              <InputGroup>
+                <Form.Control
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  minLength={6}
+                  required
+                />
+                <InputGroup.Text
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {showPassword ? "👁️" : "🙈"}
+                </InputGroup.Text>
+
+                <Form.Control.Feedback type="invalid">
+                  Vui lòng nhập mật khẩu ít nhất 6 ký tự.
+                </Form.Control.Feedback>
+              </InputGroup>
             </Form.Group>
           </Col>
           <Col md={6}>

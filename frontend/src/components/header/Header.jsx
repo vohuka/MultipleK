@@ -7,6 +7,7 @@ import {
   faXmark,
   faMagnifyingGlass,
   faCartShopping,
+  faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { useMediaQuery } from "react-responsive";
@@ -90,7 +91,7 @@ export default function Header() {
                         </span>
                       )}
                     </div>
-                    <FontAwesomeIcon icon="caret-down" className="text-muted" />
+                    <FontAwesomeIcon icon={faCaretDown} className="text-muted" />
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>

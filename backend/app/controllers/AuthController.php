@@ -77,7 +77,7 @@ class AuthController
             ]);
         } else {
             http_response_code(401);
-            echo json_encode(['message' => 'Tài khoản hoặc mất khẩu không hợp lệ !!!']);
+            echo json_encode(['message' => 'Tài khoản hoặc mật khẩu không hợp lệ !!!']);
         }
     }
 
