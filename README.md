@@ -5,7 +5,7 @@
 - **[Tiếng Việt](#vietnamese-content)**  
 
 <details open>
-<summary>🇬🇧 English Content (Click to toggle)</summary>
+<summary> English Content (Click to toggle)</summary>
 
 ---
 
