@@ -6,6 +6,7 @@
 -- Thời gian đã tạo: Th5 09, 2025 lúc 06:13 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
+DROP DATABASE IF EXISTS mk_web;
 CREATE DATABASE IF NOT EXISTS mk_web CHARACTER
 SET
     utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -319,20 +320,20 @@ CREATE TABLE `order_item` (
 --
 
 INSERT INTO `order_item` (`id`, `order_id`, `product_id`, `quantity`, `price_at_order`) VALUES
-(16, 9, 8, 1, 20000),
-(17, 9, 6, 1, 12000),
-(18, 9, 7, 1, 10000),
-(19, 10, 8, 2, 20000),
-(20, 10, 6, 1, 12000),
-(21, 10, 7, 1, 10000),
-(22, 11, 8, 1, 20000),
-(23, 11, 7, 1, 10000),
-(25, 13, 8, 1, 20000),
-(26, 14, 8, 2, 20000),
-(27, 14, 6, 1, 12000),
-(28, 14, 7, 1, 10000),
-(29, 14, 5, 1, 12000),
-(30, 14, 4, 1, 10000);
+(16, 9, 8, 1, 20000000),
+(17, 9, 6, 1, 12000000),
+(18, 9, 7, 1, 10000000),
+(19, 10, 8, 2, 20000000),
+(20, 10, 6, 1, 12000000),
+(21, 10, 7, 1, 10000000),
+(22, 11, 8, 1, 20000000),
+(23, 11, 7, 1, 10000000),
+(25, 13, 8, 1, 20000000),
+(26, 14, 8, 2, 20000000),
+(27, 14, 6, 1, 12000000),
+(28, 14, 7, 1, 10000000),
+(29, 14, 5, 1, 12000000),
+(30, 14, 4, 1, 10000000);
 
 -- --------------------------------------------------------
 
@@ -362,11 +363,11 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `name`, `brand`, `price`, `stock`, `published`, `cpu`, `storage`, `ram`, `pin`, `graphic_card`, `os`, `screen_size`, `weight`) VALUES
-(4, 'Lap1', 'Samsung', 10000, 15, '0000-00-00', 'i7', 'SSD', '12MB', '12mWh', 'RTX 560', 'Window', 120, 15),
-(5, 'Lap3', 'Microsoft', 12000, 12, '2025-04-30', 'i7', 'SSD', '12MB', '12mWh', 'RTX 560', 'Linux', 120, 12),
-(6, 'Lap4', '', 12000, 12, '2025-04-30', 'i7', 'SSD', '12MB', '12mWh', 'RTX 580', 'MAC OS', 120, 12),
-(7, 'Lap5', 'Samsung', 10000, 122, '0000-00-00', 'i7', 'SSD', '12MB', '12mWh', 'RTX 580', 'MAC OS', 120, 12),
-(8, 'Lap6', 'Samsung', 20000, 123, '2025-05-07', 'i5', 'SSD', '12MB', '12mWh', 'RTX 580', 'Linux', 120, 12);
+(4, 'Lap1', 'Samsung', 10000000, 15, '0000-00-00', 'i7', '500GB SSD', '12MB', '12mWh', 'RTX 560', 'Window', 120, 15),
+(5, 'Lap3', 'Microsoft', 12000000, 12, '2025-04-30', 'i7', '500GB SSD', '12MB', '12mWh', 'RTX 560', 'Linux', 120, 12),
+(6, 'Lap4', 'Apple', 12000000, 12, '2025-04-30', 'i7', '1TB SSD', '12MB', '12mWh', 'RTX 3500', 'MAC OS', 120, 12),
+(7, 'Lap5', 'Samsung', 10000000, 122, '0000-00-00', 'i7', '1TB HDD', '12MB', '12mWh', 'RTX 580', 'MAC OS', 120, 12),
+(8, 'Lap6', 'Samsung', 20000000, 123, '2025-05-07', 'i5', '1TB SSD', '12MB', '12mWh', 'RTX 580', 'Linux', 120, 12);
 
 -- --------------------------------------------------------
 
@@ -439,14 +440,14 @@ CREATE TABLE `product_tag` (
 --
 
 INSERT INTO `product_tag` (`id`, `product_id`, `tag_name`) VALUES
-(4, 4, 'Gaming'),
-(5, 4, 'Popular'),
+(4, 4, 'GAMING'),
+(5, 4, 'POPULAR'),
 (6, 5, 'GAMING'),
 (7, 5, 'POPULAR'),
 (8, 5, 'QUALITY'),
 (9, 6, 'GAMING'),
-(10, 6, 'GOOD'),
-(11, 6, 'TOP POPULA'),
+(10, 6, 'KOL CHOICE'),
+(11, 6, 'TOP 1 SALE'),
 (12, 7, 'GOOD'),
 (13, 8, 'GOOD');
 

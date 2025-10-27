@@ -14,10 +14,7 @@ body {
 .main-products {
   padding: 20px 60px;
 }
-.rightsidebar-product {
-  /* display: grid;
-    grid-template-columns: repeat(3,1fr); */
-}
+
 .leftsidebar-product {
   background-color: #111;
   padding: 30px 15px;
@@ -140,14 +137,14 @@ body {
   color: white !important;
   border: 1px solid #f00;
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
-  transform: scale(1.1);
+  transform-origin: center;
 }
 
 .pagination-container.mk .pagination .page-item.active .page-link {
   background-color: #f00 !important;
   color: white !important;
   border: 1px solid #d00;
-  transform: scale(1.1);
+  transform-origin: center;
 }
 .toggle-header {
   cursor: pointer;
@@ -202,6 +199,10 @@ body {
 }
 .gpu.gpu.faChevronRight {
   margin-right: 5px;
+}
+
+.faIcon {
+  margin-right: 10px;
 }
 
 @media (max-width: 768px) {

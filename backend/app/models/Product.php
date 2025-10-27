@@ -276,7 +276,7 @@ class Product
                 'graphic_cards' => $graphic_cards,
                 'oss' => $oss,
                 'pins' => $pins,
-                'screen_sizes' => $screen_sizes
+                'screen_size' => $screen_sizes
             ];
         } catch (PDOException $e) {
             // Trả lỗi JSON nếu có lỗi DB

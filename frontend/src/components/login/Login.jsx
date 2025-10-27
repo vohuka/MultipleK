@@ -1,5 +1,5 @@
 // Login.jsx
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Auth.module.css";
 import { Button, Form, Row, Col, Modal, Alert } from "react-bootstrap";
 import { FaGoogle } from "react-icons/fa";
@@ -10,6 +10,7 @@ import ggStore from "../../assets/img/Login-img/btn-googleplay.png";
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { authService } from "../../services";
+import { InputGroup } from "react-bootstrap";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -44,6 +45,8 @@ const Login = () => {
 
   const handleShowRegisterModal = () => setShowRegisterModal(true);
   const handleCloseRegisterModal = () => setShowRegisterModal(false);
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -122,15 +125,23 @@ const Login = () => {
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Control
-                      type="password"
-                      placeholder="Mật Khẩu"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="p-3"
-                      disabled={loading}
-                      required
-                    />
+                    <InputGroup>
+                      <Form.Control
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Mật Khẩu"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="p-3"
+                        disabled={loading}
+                        required
+                      />
+                      <InputGroup.Text
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {showPassword ? "👁️" : "🙈"}
+                      </InputGroup.Text>
+                    </InputGroup>
                   </Form.Group>
 
                   {errorMessage && (

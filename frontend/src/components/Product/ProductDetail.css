@@ -7,6 +7,16 @@
     width: 60px;
     text-align: center;
 }
+
+.table tbody tr td {
+  background: inherit;
+}
+
+.button-container {
+    display: flex;
+    gap: 20px;
+}
+
 @media (max-width: 575px) {
     .text-center.mkmb-3
     {
