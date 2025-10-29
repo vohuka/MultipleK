@@ -9,20 +9,17 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import {
   faBattery,
-  faChevronRight,
-  faComputer,
   faDesktop,
   faHardDrive,
   faLaptop,
   faMemory,
   faMicrochip,
-  faPersonBreastfeeding,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function SlideImage({ srcBg, srcLap, srcTitle }) {
   return (
-    <a className={style.slideImage} href="" target="_blank">
+    <a className={style.slideImage}>
       <img src={srcBg} alt="bg" />
       <div className={style.backgroundSlide}>
         <img className={style.backgroundSlideLap} src={srcLap} alt="laptop" />
@@ -39,24 +36,18 @@ function SlideImage({ srcBg, srcLap, srcTitle }) {
 
 function NewestLap({ products }) {
   return (
-    <Row xs={2} xl={4} className="g-4">
+    <Row xs={1} sm={2} lg={3} xl={4} className="g-4">
       {products.map((product, idx) => (
         <Col key={idx}>
           <NavLink
             to={`/products/detail/${product.id}`}
             className="text-decoration-none"
           >
-            <Card as="a" href="#" className={`${style.customCard} card`}>
+            <Card className={`${style.customCard} card`}>
               <Card.Img variant="top" src={product.images[0].base64} />
               <Card.Body style={{ minHeight: 100 }}>
                 <Card.Title className="text-center">{product.name}</Card.Title>
-                <Card.Text
-                  style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
+                <Card.Text>
                   <h4 className="text-primary fw-bold text-center">
                     {Number(product.price).toLocaleString("vi-VN")} đ
                   </h4>
@@ -75,7 +66,7 @@ function NewestLap({ products }) {
                     </p>
                     <p>
                       <FontAwesomeIcon icon={faBattery} className="ms-2" />{" "}
-                      {product.pin} Battery
+                      {product.pin}
                     </p>
                     <p>
                       <FontAwesomeIcon icon={faLaptop} className="ms-2" />{" "}

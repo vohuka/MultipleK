@@ -155,3 +155,11 @@
     grid-template-columns: 1fr 1fr;  /* 2 cột đều nhau */
     gap: 0.3em; 
 }
+
+.box p {
+    margin: 0;
+    font-size: 0.75rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
