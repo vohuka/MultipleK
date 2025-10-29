@@ -254,7 +254,7 @@ const RightSidebar = ({ filters, sortBy }) => {
                     )}
                     <Card.Img variant="top" src={product.images?.[0]} />
                     <Card.Body>
-                      <Form.Check label="Thêm vào phần so sánh" />
+                      {/* <Form.Check label="Thêm vào phần so sánh" /> */}
                       <Card.Title className="product-title">
                         {product.name}
                       </Card.Title>

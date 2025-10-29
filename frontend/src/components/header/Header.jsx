@@ -14,9 +14,11 @@ import { useMediaQuery } from "react-responsive";
 import { NavLink } from "react-router-dom";
 import { CartContext } from "../../Context/CartContext";
 import { Dropdown } from "react-bootstrap";
+import SearchModal from "./SearchModal";
 
 export default function Header() {
   const [visiable, setVisiable] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
   const { cartItems } = useContext(CartContext);
   const handleOnchangeMedia = (matches) => {
     if (!matches) {
@@ -34,10 +36,12 @@ export default function Header() {
     handleOnchangeMedia
   );
 
+  const closeMenu = () => setVisiable(false);
+
   return (
     <header>
       <nav className="shadow-sm nav-header">
-        <div className="header_container" style={{ height: 82.4 }}>
+        <div className="header_container">
           <div className="main-area d-flex justify-content-between">
             <div className="bar align-content-center">
               <button className="p-3" onClick={handleVisiable}>
@@ -48,31 +52,42 @@ export default function Header() {
                 )}
               </button>
             </div>
-            <div className="logo align-content-center">
+            <div className="logo align-content-center p-10">
               <NavLink to="/">
                 <img
                   src="/logo/logo.png"
-                  alt="MSI  Logo"
-                  width="98.8"
-                  height="65"
+                  alt="Multi K Logo"
+                  className="img-fluid p-2"
+                  style={{ maxWidth: 90, height: "auto" }}
+                  onClick={closeMenu}
                 />
               </NavLink>
             </div>
             <div className="main-area-menu">
               <div className="nav-item">
-                <NavLink to="products">Sản phẩm</NavLink>
+                <NavLink to="products" onClick={closeMenu}>
+                  Sản phẩm
+                </NavLink>
               </div>
               <div className="nav-item">
-                <NavLink to="introduction">Giới thiệu</NavLink>
+                <NavLink to="introduction" onClick={closeMenu}>
+                  Giới thiệu
+                </NavLink>
               </div>
               <div className="nav-item">
-                <NavLink to="community">Cộng đồng</NavLink>
+                <NavLink to="community" onClick={closeMenu}>
+                  Cộng đồng
+                </NavLink>
               </div>
               <div className="nav-item">
-                <NavLink to="questions">Hỏi/đáp</NavLink>
+                <NavLink to="questions" onClick={closeMenu}>
+                  Hỏi/đáp
+                </NavLink>
               </div>
               <div className="nav-item">
-                <NavLink to="contact">Liên hệ</NavLink>
+                <NavLink to="contact" onClick={closeMenu}>
+                  Liên hệ
+                </NavLink>
               </div>
             </div>
 
@@ -91,7 +106,10 @@ export default function Header() {
                         </span>
                       )}
                     </div>
-                    <FontAwesomeIcon icon={faCaretDown} className="text-muted" />
+                    <FontAwesomeIcon
+                      icon={faCaretDown}
+                      className="text-muted"
+                    />
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
@@ -112,7 +130,7 @@ export default function Header() {
                 </NavLink>
               </div>
               <div className="operation-icon px-3">
-                <button>
+                <button onClick={() => setShowSearchModal(true)}>
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>
               </div>
@@ -120,7 +138,16 @@ export default function Header() {
           </div>
         </div>
       </nav>
-      <MobileMenu isVisiable={visiable && isSmallerHeader} />
+      <MobileMenu
+        isVisiable={visiable && isSmallerHeader}
+        offVisual={closeMenu}
+      />
+
+      {/* Modal Search */}
+      <SearchModal
+        show={showSearchModal}
+        onHide={() => setShowSearchModal(false)}
+      />
     </header>
   );
 }
