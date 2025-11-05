@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Accordion, Spinner, Badge } from "react-bootstrap";
 import { format } from "date-fns";
+import { BASE_URL } from "../../services/api";
 
 export default function HistoryCart() {
   const [orders, setOrders] = useState([]);
@@ -10,7 +11,7 @@ export default function HistoryCart() {
     const fetchOrders = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost/backend/historycart", {
+        const res = await fetch(`${BASE_URL}/historycart`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

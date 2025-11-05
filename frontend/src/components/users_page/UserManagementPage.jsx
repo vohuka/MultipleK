@@ -10,6 +10,7 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
+import { BASE_URL } from "../../services/api";
 
 export default function UserManagementPage() {
   const [users, setUsers] = useState([]);
@@ -30,7 +31,7 @@ export default function UserManagementPage() {
         return;
       }
 
-      const res = await axios.get("http://localhost/backend/admin/users", {
+      const res = await axios.get(`${BASE_URL}/admin/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -74,7 +75,7 @@ export default function UserManagementPage() {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost/backend/admin/users/${user.id}`, {
+      await axios.delete(`${BASE_URL}/admin/users/${user.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -242,7 +243,7 @@ export default function UserManagementPage() {
                   selectedUser.role === "Admin" ? "admin" : "user";
 
                 await axios.put(
-                  `http://localhost/backend/admin/users/${selectedUser.id}`,
+                  `${BASE_URL}/admin/users/${selectedUser.id}`,
                   { role: newRole },
                   {
                     headers: {

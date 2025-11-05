@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import axios from "axios";
+import productService from "../../services/productServices";
 import "./ProductDetail.css";
 import { CartContext } from "../../Context/CartContext";
 import { useNavigate } from "react-router-dom";
@@ -21,14 +21,12 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const { addToCart } = useContext(CartContext);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost/backend/products/${productId}`
-        );
+        const res = await productService.getProductsById(productId);
         setProduct(res.data.data);
       } catch (err) {
         console.error("Error fetching product detail", err);

@@ -16,6 +16,7 @@ import {
   faMicrochip,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import productService from "../../services/productServices";
 
 function SlideImage({ srcBg, srcLap, srcTitle }) {
   return (
@@ -89,7 +90,6 @@ function NewestLap({ products }) {
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
-  const token = localStorage.getItem("token");
   const settings = {
     dots: true,
     infinite: true,
@@ -103,12 +103,7 @@ export default function HomePage() {
   };
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost/backend/products/1/8", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await productService.getFilteredProducts(1, 8, null)
       setProducts(res.data.data || []);
     } catch (err) {
       console.error("Fetch failed:", err.response?.status, err.response?.data); // Log status và message từ server

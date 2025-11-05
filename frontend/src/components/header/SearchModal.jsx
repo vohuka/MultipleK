@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Card, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import axios from "axios";
+import productService from "../../services/productServices";
 
 const SearchModal = ({ show, onHide }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,7 +13,7 @@ const SearchModal = ({ show, onHide }) => {
     if (show) {
       const fetchProducts = async () => {
         try {
-          const res = await axios.get("http://localhost/backend/products");
+          const res = await productService.getProducts();
           setAllProducts(res.data.data || []);
         } catch (err) {
           console.error("Error fetching products:", err);

@@ -1,10 +1,10 @@
 // Services/api.js
 import axios from "axios";
 
-const API_URL = "http://localhost/backend";
+export const BASE_URL = "http://localhost/backend";
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: BASE_URL,
 });
 
 // Gắn token nếu có

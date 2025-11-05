@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import {BASE_URL} from "../../services/api";
+import productService from "../../services/productServices";
 
 const ProductUpdate = () => {
   const { id } = useParams();
@@ -21,10 +23,7 @@ const ProductUpdate = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost/backend/products/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    productService.getProductsById(id)
       .then((res) => {
         const data = res.data.data;
         setForm({
@@ -39,7 +38,7 @@ const ProductUpdate = () => {
         setAllImages(
           (data.images || []).map((img) => ({
             ...img,
-            url: `http://localhost/backend/uploads/img/${img.name}`,
+            url: `${BASE_URL}/uploads/img/${img.name}`,
           }))
         );
         console.log(data.images);
@@ -80,7 +79,7 @@ const ProductUpdate = () => {
         const formData = new FormData();
         formData.append("image", file);
         const res = await axios.post(
-          "http://localhost/backend/products/image",
+          `${BASE_URL}/products/image`,
           formData,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -93,7 +92,7 @@ const ProductUpdate = () => {
       // 2. Gửi danh sách ảnh cần xoá
       if (imagesToDelete.length > 0) {
         await axios.post(
-          "http://localhost/backend/products/image/delete",
+          `${BASE_URL}/products/image/delete`,
           {
             filenames: imagesToDelete,
           },
@@ -129,7 +128,7 @@ const ProductUpdate = () => {
 
       console.log("Payload gửi lên:", payload);
       const res = await axios.put(
-        `http://localhost/backend/products`,
+        `${BASE_URL}/products`,
         payload,
         {
           headers: {

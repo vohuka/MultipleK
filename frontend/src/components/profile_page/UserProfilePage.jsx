@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, FormControl, InputGroup, Modal } from "react-bootstrap";
 import "./UserProfilePage.css";
+import { BASE_URL } from "../../services/api";
 
 export default function UserProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -31,7 +32,7 @@ export default function UserProfilePage() {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost/backend/user/me", {
+        const res = await axios.get(`${BASE_URL}/user/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setProfile(res.data.user);
@@ -67,7 +68,7 @@ export default function UserProfilePage() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        "http://localhost/backend/user/change-password",
+        `${BASE_URL}/user/change-password`,
         {
           old_password: oldPassword,
           new_password: newPassword,
@@ -117,7 +118,7 @@ export default function UserProfilePage() {
 
     try {
       const uploadRes = await axios.post(
-        "http://localhost/backend/uploads/upload_image.php",
+        `${BASE_URL}/uploads/upload_image.php`,
         formData,
         {
           headers: {
@@ -133,7 +134,7 @@ export default function UserProfilePage() {
         // Gọi API để lưu avatar_url vào database
         const token = localStorage.getItem("token");
         await axios.put(
-          `http://localhost/backend/user/update-avatar`,
+          `${BASE_URL}/user/update-avatar`,
           { avatar_url: newAvatarUrl },
           {
             headers: {

@@ -6,6 +6,7 @@ import styles from "./IntroPage.module.css";
 import introHeader from "../../assets/img/Intro/intro_header.png";
 import introHeaderXs from "../../assets/img/Intro/kv-about-index-xs.jpg";
 import introService from "../../services/introServices";
+import { BASE_URL } from "../../services/api";
 
 export default function IntroPage() {
   const [introData, setIntroData] = useState({
@@ -90,7 +91,7 @@ export default function IntroPage() {
                 <div>
                   <img
                     className={styles.introCardImg}
-                    src={`http://localhost/backend/${introData.about_us?.image_path}`}
+                    src={`${BASE_URL}/${introData.about_us?.image_path}`}
                   ></img>
                 </div>
                 <div className={styles.introCardText}>
@@ -106,7 +107,7 @@ export default function IntroPage() {
                 <div>
                   <img
                     className={styles.introCardImg}
-                    src={`http://localhost/backend/${introData.one_step_service?.image_path}`}
+                    src={`${BASE_URL}/${introData.one_step_service?.image_path}`}
                   ></img>
                 </div>
                 <div className={styles.introCardText}>
@@ -122,7 +123,7 @@ export default function IntroPage() {
                 <div>
                   <img
                     className={styles.introCardImg}
-                    src={`http://localhost/backend/${introData.sustainability?.image_path}`}
+                    src={`${BASE_URL}/${introData.sustainability?.image_path}`}
                   ></img>
                 </div>
                 <div className={styles.introCardText}>
@@ -135,7 +136,7 @@ export default function IntroPage() {
         <figure className={`${styles.contactUsImg}`}>
           <img
             className={`${styles.contactUsImgMobile} d-block d-lg-none`}
-            src={`http://localhost/backend/${introData.contact_us?.image_path}`}
+            src={`${BASE_URL}/${introData.contact_us?.image_path}`}
           ></img>
         </figure>
         <div className={styles.contactUs}>

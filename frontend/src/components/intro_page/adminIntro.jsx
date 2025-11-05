@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import introService from "../../services/introServices";
 import { toast } from "react-toastify";
 import styles from "./adminIntro.module.css";
+import { BASE_URL } from "../../services/api";
 
 export default function adminIntro() {
   const [introData, setIntroData] = useState({
@@ -272,7 +273,7 @@ export default function adminIntro() {
                         <label>Current Image</label>
                         <div className="mt-2 mb-3">
                           <img
-                            src={`http://localhost/backend/${introData[activeSection].image_path}`}
+                            src={`${BASE_URL}/${introData[activeSection].image_path}`}
                             alt={introData[activeSection].title}
                             className="img-fluid"
                             style={{ maxHeight: "200px" }}
