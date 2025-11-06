@@ -101,17 +101,19 @@ export default function HomePage() {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   const fetchProducts = async () => {
     try {
-      const res = await productService.getFilteredProducts(1, 8, null)
+      const res = await productService.getFilteredProducts(1, 8, "")
       setProducts(res.data.data || []);
     } catch (err) {
       console.error("Fetch failed:", err.response?.status, err.response?.data); // Log status và message từ server
     }
   };
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   const list_slide = [
     {

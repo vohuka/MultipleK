@@ -11,7 +11,7 @@ const productService = {
 		return api.get(`/products/${id}`);
 	},
 	getFilteredProducts: (page, limit, sortBy) => {
-		return axios.get(
+		return api.get(
 			`/products/${page}/${limit}${sortBy ? `?sort=${sortBy}` : ""}`,
 			{
 				headers: {
