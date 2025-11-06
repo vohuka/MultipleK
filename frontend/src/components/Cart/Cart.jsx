@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../Context/CartContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BASE_URL } from "../../services/api";
+
 export default function Cart() {
   const navigate = useNavigate();
   const { cartItems, updateQuantity, removeFromCart, clearCart } =
@@ -22,7 +24,7 @@ export default function Cart() {
       const accessToken = localStorage.getItem("token");
       console.log(cartItems);
 
-      const response = await fetch("http://localhost/backend/cart/buy", {
+      const response = await fetch(`${BASE_URL}/cart/buy`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

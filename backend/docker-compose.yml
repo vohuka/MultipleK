@@ -1,0 +1,46 @@
+services:
+  web-backend:
+    build: .
+    container_name: multiplek_backend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./uploads:/var/www/html/uploads
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=rootpassword
+      - DB_NAME=mk_web
+      - BASE_URL=http://localhost:8080
+      - JWT_SECRET=KhangLaDanEmCuaKhanh
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - multiplek_network
+
+  db:
+    image: mysql:8.0
+    container_name: multiplek_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      # MYSQL_DATABASE: mk_web
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mk_web.sql:/docker-entrypoint-initdb.d/mk_web.sql
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - multiplek_network
+
+volumes:
+  db_data:
+
+networks:
+  multiplek_network:
+    driver: bridge

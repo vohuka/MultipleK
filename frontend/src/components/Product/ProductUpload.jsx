@@ -3,6 +3,7 @@ import { FaImages } from "react-icons/fa";
 import "./ProductUpload.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BASE_URL } from "../../services/api";
 
 const ProductUpload = () => {
   const [form, setForm] = useState({
@@ -74,7 +75,7 @@ const ProductUpload = () => {
       formData.append("image", file);
 
       try {
-        const res = await fetch("http://localhost/backend/products/image", {
+        const res = await fetch(`${BASE_URL}/products/image`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -127,7 +128,7 @@ const ProductUpload = () => {
         colors: form.colors,
         tags: form.tags,
       };
-      const response = await fetch("http://localhost/backend/products", {
+      const response = await fetch(`${BASE_URL}/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

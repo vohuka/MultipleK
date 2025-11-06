@@ -24,7 +24,7 @@ class ImageModel {
         $destPath = $uploadDir . $fileName;
 
         if (move_uploaded_file($fileTmpPath, $destPath)) {
-            $url = 'http://localhost/backend/uploads/img/' . $fileName;
+            $url = BASE_URL . '/uploads/img/' . $fileName;
             echo json_encode(['success' => true, 'url' => $url, 'filename' => $fileName]);
         } else {
             http_response_code(500);
@@ -50,7 +50,7 @@ class ImageModel {
     foreach ($filenames as $fileName) {
         $fileName = basename($fileName); // sanitize
         $filePath = $uploadDir . $fileName;
-        $imgUrl = 'http://localhost/backend/uploads/img/' . $fileName;
+        $imgUrl = BASE_URL . '/uploads/img/' . $fileName;
 
         try {
 

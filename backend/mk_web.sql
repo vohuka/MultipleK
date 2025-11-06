@@ -415,13 +415,13 @@ CREATE TABLE `product_path` (
 --
 
 INSERT INTO `product_path` (`id`, `product_id`, `img_path`) VALUES
-(4, 4, 'http://localhost/backend/uploads/img/img_6817976a94a26.png'),
-(5, 4, 'http://localhost/backend/uploads/img/img_6817976a966d5.png'),
-(6, 5, 'http://localhost/backend/uploads/img/img_681797fdde0d0.png'),
-(7, 5, 'http://localhost/backend/uploads/img/img_681797fde1473.png'),
-(8, 6, 'http://localhost/backend/uploads/img/img_681798858169a.png'),
-(9, 7, 'http://localhost/backend/uploads/img/img_681798bc04b3a.png'),
-(10, 8, 'http://localhost/backend/uploads/img/img_681798dac2f28.png');
+(4, 4, 'http://localhost:8080/uploads/img/img_6817976a94a26.png'),
+(5, 4, 'http://localhost:8080/uploads/img/img_6817976a966d5.png'),
+(6, 5, 'http://localhost:8080/uploads/img/img_681797fdde0d0.png'),
+(7, 5, 'http://localhost:8080/uploads/img/img_681797fde1473.png'),
+(8, 6, 'http://localhost:8080/uploads/img/img_681798858169a.png'),
+(9, 7, 'http://localhost:8080/uploads/img/img_681798bc04b3a.png'),
+(10, 8, 'http://localhost:8080/uploads/img/img_681798dac2f28.png');
 
 -- --------------------------------------------------------
 
@@ -598,14 +598,14 @@ ALTER TABLE `comment`
 --
 ALTER TABLE `contact_address`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `address` (`address`) USING HASH;
+  ADD UNIQUE KEY `address` (`address`(255)) ;
 
 --
 -- Chỉ mục cho bảng `contact_email`
 --
 ALTER TABLE `contact_email`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`) USING HASH;
+  ADD UNIQUE KEY `email` (`email`(255)) ;
 
 --
 -- Chỉ mục cho bảng `contact_form`
@@ -625,9 +625,9 @@ ALTER TABLE `contact_phone`
 --
 ALTER TABLE `home_page`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `bg_img` (`bg_img`) USING HASH,
-  ADD UNIQUE KEY `lap_img` (`lap_img`) USING HASH,
-  ADD UNIQUE KEY `title_img` (`title_img`) USING HASH;
+  ADD UNIQUE KEY `bg_img` (`bg_img`(255)) ,
+  ADD UNIQUE KEY `lap_img` (`lap_img`(255)) ,
+  ADD UNIQUE KEY `title_img` (`title_img`(255)) ;
 
 --
 -- Chỉ mục cho bảng `intro_content`

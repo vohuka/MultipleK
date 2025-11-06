@@ -22,8 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = new Database();
     $conn = $db->connect();
 
+    require_once __DIR__ . '/../config/config.php';
+
     // Tìm và xóa trong DB
-    $imgUrl = 'http://localhost/backend/uploads/img/' . basename($fileName);
+    $imgUrl = BASE_URL . '/uploads/img/' . basename($fileName);
     $stmt = $conn->prepare("DELETE FROM product_path WHERE img_path = :img_path");
     $stmt->bindValue(':img_path', $imgUrl, PDO::PARAM_STR);
     $stmt->execute();

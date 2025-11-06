@@ -6,3 +6,4 @@ export { default as authService } from "./authServices";
 export { default as introService } from "./introServices";
 export { default as questionService } from "./questionServices";
 export { default as userService } from "./userService";
+export { default as productService } from "./productServices";
