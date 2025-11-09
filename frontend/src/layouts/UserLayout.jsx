@@ -1,6 +1,7 @@
 // layouts/UserLayout.jsx
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
+import ChatBot from "../components/chat/ChatBot";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -29,6 +30,7 @@ function UserLayout() {
       <Header />
       <Outlet />
       <Footer />
+      <ChatBot />
     </>
   );
 }
