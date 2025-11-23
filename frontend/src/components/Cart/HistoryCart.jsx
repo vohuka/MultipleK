@@ -6,6 +6,20 @@ import { BASE_URL } from "../../services/api";
 export default function HistoryCart() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const status = {
+    "ordered": {
+        color: "success",
+        state: "Đã đặt hàng"
+    },
+    "shipping": {
+        color: "warning",
+        state: "Đang giao hàng"
+    },
+    "delivered": {
+        color: "info",
+        state: "Đã giao hàng"
+    }
+  }
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -55,10 +69,10 @@ export default function HistoryCart() {
                   </div>
                   <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center">
                     <Badge
-                      bg={order.status === "completed" ? "success" : "warning"}
+                      bg={status[order.status].color}
                       className="me-md-3 mt-2 mt-md-0"
                     >
-                      {order.status === "completed" ? "Hoàn tất" : "Đang xử lý"}
+                      {status[order.status].state}
                     </Badge>
                     <span className="ms-md-3 mt-2 mt-md-0">
                       <strong>Tổng tiền:</strong>{" "}

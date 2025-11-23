@@ -20,6 +20,12 @@ export default function Cart() {
   const { cartItems, updateQuantity, removeFromCart, clearCart } =
     useContext(CartContext);
   const handleCheckout = async () => {
+    // Kiểm tra giỏ hàng có sản phẩm không
+    if (cartItems.length === 0) {
+      toast.warning("Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi mua hàng.");
+      return;
+    }
+    
     try {
       const accessToken = localStorage.getItem("token");
       console.log(cartItems);
