@@ -4,9 +4,17 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Set headers
+// Load Composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';
+
+// Load environment variables using phpdotenv
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Set CORS headers (but not Content-Type yet - let controllers set it)
 header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, PATCH');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 

@@ -5,6 +5,7 @@ services:
     ports:
       - "8080:80"
     volumes:
+      - .:/var/www/html
       - ./uploads:/var/www/html/uploads
     environment:
       - DB_HOST=db
@@ -13,6 +14,8 @@ services:
       - DB_NAME=mk_web
       - BASE_URL=http://localhost:8080
       - JWT_SECRET=KhangLaDanEmCuaKhanh
+      - TOGETHER_AI_API_KEY=${TOGETHER_AI_API_KEY}
+      - TOGETHER_MODEL=${TOGETHER_MODEL:-meta-llama/Llama-3.3-70B-Instruct-Turbo-Free}
     depends_on:
       db:
         condition: service_healthy
