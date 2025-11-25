@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Button, FormControl, InputGroup, Modal } from "react-bootstrap";
 import "./UserProfilePage.css";
 import { BASE_URL } from "../../services/api";
+import { useContext } from "react";
+import { CartContext } from "../../Context/CartContext";
 
 export default function UserProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -27,6 +29,8 @@ export default function UserProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [previewAvatar, setPreviewAvatar] = useState(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
+
+  const { clearCart } = useContext(CartContext);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -187,6 +191,7 @@ export default function UserProfilePage() {
     // Xóa token và thông tin người dùng khỏi localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    clearCart();
 
     // In thông báo để debug
     console.log("User logged out successfully");

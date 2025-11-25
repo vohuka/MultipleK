@@ -93,3 +93,6 @@ $router->addRoute('PUT', '/user/change-password', 'UserController', 'changePassw
 // ChatBot routes
 $router->addRoute('POST', '/chatbot/message', 'ChatBotController', 'sendMessage');
 $router->addRoute('GET', '/chatbot/models', 'ChatBotController', 'getModels');
+//payment
+$router->addRoute('POST', '/payment/create', 'PaymentController', 'create');
+$router->addRoute('POST', '/payment/verify', 'PaymentController', 'verify');

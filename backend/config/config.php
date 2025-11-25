@@ -6,3 +6,4 @@ define('DB_PASS', $_ENV['DB_PASS'] ?? '');
 define('DB_NAME', $_ENV['DB_NAME'] ?? 'mk_web');
 define('BASE_URL', $_ENV['BASE_URL'] ?? 'http://localhost/backend');
 define('JWT_SECRET', $_ENV['JWT_SECRET'] ?? 'KhangLaDanEmCuaKhanh');
+define('FRONTEND_URL', getenv('FRONTEND_URL') ?: 'http://localhost:5173');
