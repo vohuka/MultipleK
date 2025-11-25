@@ -5,11 +5,11 @@ class Order{
     {
         $this->conn = $db;
     }
-    public function createOrder($user_id)
+    public function createOrder($user_id, $transaction_id)
     {
-        $query = "INSERT INTO orders (user_id) VALUES (:user_id)";
+        $query = "INSERT INTO orders (user_id, transaction_id) VALUES (:user_id, :transaction_id)";
         $stmt = $this->conn->prepare($query);
-        if($stmt->execute([':user_id' => $user_id]))
+        if($stmt->execute([':user_id' => $user_id, ':transaction_id' => $transaction_id]))
         {
             return $this->conn->lastInsertId();
         }
@@ -33,9 +33,9 @@ class Order{
         return $orders;
     }
     private function getOrderItems($orderId) {
-        $sql = "SELECT oi.quantity, oi.price_at_order, p.name 
-                FROM order_item oi 
-                JOIN product p ON oi.product_id = p.id 
+        $sql = "SELECT oi.quantity, oi.price_at_order, p.name
+                FROM order_item oi
+                JOIN product p ON oi.product_id = p.id
                 WHERE oi.order_id  = :order_id";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['order_id' => $orderId]);
@@ -57,12 +57,12 @@ class Order{
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt;
-    } 
+    }
 
     public function updateStatus($id, $status){
         $query = 'update orders set status = :status where id = :id';
         $stmt = $this->conn->prepare($query);
-        
+
         $id = htmlspecialchars(strip_tags($id));
         $status = htmlspecialchars(strip_tags($status));
 

@@ -6,3 +6,4 @@ define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_NAME', getenv('DB_NAME') ?: 'mk_web');
 define('BASE_URL', getenv('BASE_URL') ?: 'http://localhost/backend');
 define('JWT_SECRET', getenv('JWT_SECRET') ?: 'KhangLaDanEmCuaKhanh');
+define('FRONTEND_URL', getenv('FRONTEND_URL') ?: 'http://localhost:5173');

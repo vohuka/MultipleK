@@ -11,7 +11,7 @@
         <!-- Bootstrap core CSS -->
         <link href="/vnpay_php/assets/bootstrap.min.css" rel="stylesheet"/>
         <!-- Custom styles for this template -->
-        <link href="/vnpay_php/assets/jumbotron-narrow.css" rel="stylesheet">         
+        <link href="/vnpay_php/assets/jumbotron-narrow.css" rel="stylesheet">
         <script src="/vnpay_php/assets/jquery-1.11.3.min.js"></script>
     </head>
     <body>
@@ -24,7 +24,7 @@
                 $inputData[$key] = $value;
             }
         }
-        
+
         unset($inputData['vnp_SecureHash']);
         ksort($inputData);
         $i = 0;
@@ -50,32 +50,32 @@
                     <label >Mã đơn hàng:</label>
 
                     <label><?php echo $_GET['vnp_TxnRef'] ?></label>
-                </div>    
+                </div>
                 <div class="form-group">
 
                     <label >Số tiền:</label>
                     <label><?php echo $_GET['vnp_Amount'] ?></label>
-                </div>  
+                </div>
                 <div class="form-group">
                     <label >Nội dung thanh toán:</label>
                     <label><?php echo $_GET['vnp_OrderInfo'] ?></label>
-                </div> 
+                </div>
                 <div class="form-group">
                     <label >Mã phản hồi (vnp_ResponseCode):</label>
                     <label><?php echo $_GET['vnp_ResponseCode'] ?></label>
-                </div> 
+                </div>
                 <div class="form-group">
                     <label >Mã GD Tại VNPAY:</label>
                     <label><?php echo $_GET['vnp_TransactionNo'] ?></label>
-                </div> 
+                </div>
                 <div class="form-group">
                     <label >Mã Ngân hàng:</label>
                     <label><?php echo $_GET['vnp_BankCode'] ?></label>
-                </div> 
+                </div>
                 <div class="form-group">
                     <label >Thời gian thanh toán:</label>
                     <label><?php echo $_GET['vnp_PayDate'] ?></label>
-                </div> 
+                </div>
                 <div class="form-group">
                     <label >Kết quả:</label>
                     <label>
@@ -92,7 +92,7 @@
                         ?>
 
                     </label>
-                </div> 
+                </div>
             </div>
             <p>
                 &nbsp;
@@ -100,6 +100,6 @@
             <footer class="footer">
                    <p>&copy; VNPAY <?php echo date('Y')?></p>
             </footer>
-        </div>  
+        </div>
     </body>
 </html>
