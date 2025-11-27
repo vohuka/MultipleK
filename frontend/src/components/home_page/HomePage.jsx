@@ -108,7 +108,7 @@ export default function HomePage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await productService.getFilteredProducts(1, 8, "")
+      const res = await productService.getFilteredProducts(1, 4, "")
       setProducts(res.data.data || []);
     } catch (err) {
       console.error("Fetch failed:", err.response?.status, err.response?.data); // Log status và message từ server

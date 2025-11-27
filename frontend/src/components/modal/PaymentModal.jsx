@@ -109,7 +109,7 @@ const PaymentModal = ({ show, onHide, cartItems }) => {
 							Đang xử lý...
 						</>
 					) : (
-						"Checkout"
+						"Thanh toán"
 					)}
 				</Button>
 			</Modal.Footer>

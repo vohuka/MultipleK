@@ -116,10 +116,10 @@ export default function Cart() {
 				<Row>
 					{/* Left: Cart List */}
 					<Col md={8}>
-						<h4>Shopping Cart</h4>
+						<h4>Giỏ hàng</h4>
 						<p>{totalItems} items</p>
 						{cartItems.length === 0 ? (
-							<p>Cart is empty</p>
+							<p>Giỏ hàng rỗng</p>
 						) : (
 							cartItems.map((item) => (
 								<div
@@ -181,16 +181,16 @@ export default function Cart() {
 					{/* Right: Summary */}
 					<Col md={4}>
 						<div className='p-4 border rounded'>
-							<h5>Summary</h5>
+							<h5>Tóm tắt</h5>
 							<hr />
 							<div className='d-flex justify-content-between'>
-								<span>Items:</span>
+								<span>Mặt hàng:</span>
 								<strong>
 									{subtotal.toLocaleString("vi-VN")}₫
 								</strong>
 							</div>
 							<div className='d-flex justify-content-between mt-2'>
-								<span>Shipping:</span>
+								<span>Vận chuyển:</span>
 								<strong>
 									{shipping.toLocaleString("vi-VN")}₫
 								</strong>
@@ -204,7 +204,7 @@ export default function Cart() {
 							</Form.Group>
 							<hr />
 							<div className='d-flex justify-content-between'>
-								<span>Total Price:</span>
+								<span>Tổng tiền:</span>
 								<strong>
 									{total.toLocaleString("vi-VN")}₫
 								</strong>
@@ -214,7 +214,7 @@ export default function Cart() {
 								className='w-100 mt-3'
 								onClick={handleCheckout}
 							>
-								Buy
+								Mua
 							</Button>
 						</div>
 					</Col>
