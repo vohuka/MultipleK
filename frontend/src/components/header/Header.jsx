@@ -106,10 +106,6 @@ export default function Header() {
                         </span>
                       )}
                     </div>
-                    <FontAwesomeIcon
-                      icon={faCaretDown}
-                      className="text-muted"
-                    />
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>

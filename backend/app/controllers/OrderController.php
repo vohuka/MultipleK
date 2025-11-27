@@ -11,9 +11,9 @@ class OrderController
         $this->orderModel = new Order($db);
         $this->orderItemModel = new OrderItem($db);
     }
-    
+
     public function buy()
-    {   
+    {
         AuthMiddleware::verifyToken();
         if(!isset($_SERVER['HTTP_USER_ID'])) {
             http_response_code(401);
@@ -23,17 +23,20 @@ class OrderController
         $data = json_decode(file_get_contents("php://input"), true);
 
         $user_id = $_SERVER['HTTP_USER_ID'];
-        $order_id = $this->orderModel->createOrder($user_id);
+        $transaction_id = $data['transaction_id'] ?? null;
+
+        $order_id = $this->orderModel->createOrder($user_id, $transaction_id);
         if (!$order_id) {
             http_response_code(500);
             echo json_encode(['message' => 'Failed to create order']);
             return;
         }
-        foreach($data as $item){
+
+        foreach($data["items"] as $item){
             $this->orderItemModel->createOrderItem($order_id, $item['id'], $item['quantity'], $item['price']);
         }
         http_response_code(200);
-        echo json_encode(['success' => true, 'order_id' => $order_id]);   
+        echo json_encode(['success' => true, 'order_id' => $order_id]);
      }
     // View user's order history
     public function getOrderByUser()
@@ -105,13 +108,13 @@ class OrderController
             echo json_encode([
                 "status" => "success",
                 "message" => "Update successfully"
-            ]);      
+            ]);
         } else {
             http_response_code(500);
             echo json_encode([
                 "status" => "error",
                 "message" => "Update failed"
-            ]); 
+            ]);
         }
     }
 
@@ -121,7 +124,7 @@ class OrderController
 
         $result = $this->orderItemModel->getOrderItemsByOrderId($id);
         $numRow = $result->rowCount();
-        
+
         if ($numRow > 0){
             $rows = [];
             while($row = $result->fetch(PDO::FETCH_ASSOC)){
@@ -138,6 +141,6 @@ class OrderController
             ]);
         }
     }
-   
+
 }
 ?>

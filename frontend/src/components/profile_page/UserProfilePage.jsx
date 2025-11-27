@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Button, FormControl, InputGroup, Modal } from "react-bootstrap";
 import "./UserProfilePage.css";
 import { BASE_URL } from "../../services/api";
+import { useContext } from "react";
+import { CartContext } from "../../Context/CartContext";
 
 export default function UserProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -28,6 +30,8 @@ export default function UserProfilePage() {
   const [previewAvatar, setPreviewAvatar] = useState(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
+  const { clearCart } = useContext(CartContext);
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -38,7 +42,7 @@ export default function UserProfilePage() {
         setProfile(res.data.user);
         setAvatarUrl(
           res.data.user.avatar_url ||
-            "https://via.placeholder.com/150x150?text=Avatar"
+            "https://i.pinimg.com/736x/dc/24/11/dc24119d6c5d97d3aad5fa19ae7cdbcc.jpg"
         );
       } catch (err) {
         console.error("Failed to fetch profile", err);
@@ -151,7 +155,7 @@ export default function UserProfilePage() {
         setModalMessage("Ảnh đại diện đã được cập nhật.");
         setModalVariant("success");
       } else {
-        setModalTitle("❌ Upload thất bại");
+        setModalTitle("❌ Tải lên thất bại");
         setModalMessage(uploadRes.data.message || "Lỗi không xác định.");
         setModalVariant("danger");
       }
@@ -187,6 +191,7 @@ export default function UserProfilePage() {
     // Xóa token và thông tin người dùng khỏi localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    clearCart();
 
     // In thông báo để debug
     console.log("User logged out successfully");
@@ -202,7 +207,7 @@ export default function UserProfilePage() {
 
   return (
     <div className="user-profile container py-5">
-      <h2 className="mb-4">👤 User Profile</h2>
+      <h2 className="mb-4">👤 Thông tin người dùng</h2>
       <div className="text-center mb-4">
         <div className="avatar-upload mb-3">
           <img
@@ -213,7 +218,7 @@ export default function UserProfilePage() {
           />
         </div>
         <label className="btn btn-outline-secondary btn-sm">
-          Upload Avatar
+          Cập nhật ảnh đại diện
           <input
             type="file"
             accept="image/*"
@@ -225,7 +230,7 @@ export default function UserProfilePage() {
 
       <form className="card p-4 shadow-sm mb-4">
         <div className="mb-3">
-          <label className="form-label">Full Name</label>
+          <label className="form-label">Họ và tên</label>
           <input
             type="text"
             className="form-control"
@@ -234,7 +239,7 @@ export default function UserProfilePage() {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Email Address</label>
+          <label className="form-label">Địa chỉ email</label>
           <input
             type="email"
             className="form-control"
@@ -243,7 +248,7 @@ export default function UserProfilePage() {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Phone Number</label>
+          <label className="form-label">Số điện thoại</label>
           <input
             type="text"
             className="form-control"
@@ -252,7 +257,7 @@ export default function UserProfilePage() {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Birthdate</label>
+          <label className="form-label">Ngày sinh</label>
           <input
             type="date"
             className="form-control"
@@ -261,7 +266,7 @@ export default function UserProfilePage() {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Country</label>
+          <label className="form-label">Quốc gia</label>
           <input
             type="text"
             className="form-control"
@@ -270,7 +275,7 @@ export default function UserProfilePage() {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Biography</label>
+          <label className="form-label">Tiểu sử</label>
           <textarea
             className="form-control"
             value={profile.bio}
@@ -286,24 +291,24 @@ export default function UserProfilePage() {
             className="btn btn-outline-primary"
             onClick={() => setShowPasswordForm(true)}
           >
-            🔒 Change password
+            🔒 Đổi mật khẩu
           </button>
           <button
             onClick={handleLogout}
             className="btn btn-outline-danger btn-sm"
             title="Logout"
           >
-            <i className="fa-solid fa-sign-out-alt"></i> Logout
+            <i className="fa-solid fa-sign-out-alt"></i> Đăng xuất
           </button>
         </div>
       )}
 
       {showPasswordForm && (
         <div className="card p-4 shadow-sm mt-3">
-          <h4 className="mb-3">Change Password</h4>
+          <h4 className="mb-3">Đổi mật khẩu</h4>
           <form onSubmit={handlePasswordChange}>
             <div className="mb-3">
-              <label className="form-label">Old Password</label>
+              <label className="form-label">Mật khẩu hiện tại</label>
               <InputGroup>
                 <FormControl
                   type={showOldPassword ? "text" : "password"}
@@ -319,7 +324,7 @@ export default function UserProfilePage() {
               </InputGroup>
             </div>
             <div className="mb-3">
-              <label className="form-label">New Password</label>
+              <label className="form-label">Mật khẩu mới</label>
               <InputGroup>
                 <FormControl
                   type={showNewPassword ? "text" : "password"}
@@ -335,7 +340,7 @@ export default function UserProfilePage() {
               </InputGroup>
             </div>
             <div className="mb-3">
-              <label className="form-label">Confirm New Password</label>
+              <label className="form-label">Nhập lại mật khẩu mới</label>
               <InputGroup>
                 <FormControl
                   type={showConfirmPassword ? "text" : "password"}
@@ -352,7 +357,7 @@ export default function UserProfilePage() {
             </div>
             <div className="d-flex gap-2">
               <Button type="submit" variant="primary">
-                Save
+                Lưu
               </Button>
               <Button
                 variant="secondary"
@@ -363,7 +368,7 @@ export default function UserProfilePage() {
                   setConfirmPassword("");
                 }}
               >
-                Cancel
+                Hủy
               </Button>
             </div>
           </form>
@@ -391,14 +396,14 @@ export default function UserProfilePage() {
             variant={modalVariant === "danger" ? "light" : "primary"}
             onClick={() => setShowSuccessModal(false)}
           >
-            OK
+            Xác nhận
           </Button>
         </Modal.Footer>
       </Modal>
 
       <Modal show={showPreviewModal} onHide={handleCancelAvatar} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Preview Avatar</Modal.Title>
+          <Modal.Title>Xem trước ảnh đại diện</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
           <img
@@ -410,10 +415,10 @@ export default function UserProfilePage() {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCancelAvatar}>
-            Cancel
+            Hủy
           </Button>
           <Button variant="primary" onClick={handleConfirmAvatar}>
-            Confirm
+            Xác nhận
           </Button>
         </Modal.Footer>
       </Modal>
