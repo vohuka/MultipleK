@@ -285,7 +285,7 @@ INSERT INTO `intro_content` (`id`, `section_key`, `title`, `content`, `image_pat
 CREATE TABLE `orders` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED DEFAULT NULL,
-  `status` enum('ordered','shipping','delivered') DEFAULT 'ordered',
+  `status` enum('pending','ordered','shipping','delivered') NOT NULL,
   `transaction_id` text DEFAULT NULL,
   `order_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -553,6 +553,26 @@ INSERT INTO `users` (`id`, `email`, `password`, `first_name`, `last_name`, `regi
 (9, 'user3@example.com', '$2y$10$ROP8ggyMtda9Bgy.taxiE./X7rIQCubsdbFqKPKlgMaj4j46cFUNy', 'User', 'Three', 'MY', '1999-09-20', '0911111113', 'user', NULL, '2025-04-26 00:45:29', '2025-04-26 00:45:29'),
 (10, 'user4@example.com', '$2y$10$ROP8ggyMtda9Bgy.taxiE./X7rIQCubsdbFqKPKlgMaj4j46cFUNy', 'User', 'Four', 'ID', '1998-04-18', '0911111114', 'user', NULL, '2025-04-26 00:45:29', '2025-04-26 00:45:29'),
 (11, 'user5@example.com', '$2y$10$ROP8ggyMtda9Bgy.taxiE./X7rIQCubsdbFqKPKlgMaj4j46cFUNy', 'User', 'Five', 'PH', '1997-12-31', '0911111115', 'user', NULL, '2025-04-26 00:45:29', '2025-04-26 00:45:29');
+
+-- Tạo bảng billing để lưu thông tin thanh toán
+CREATE TABLE `bills` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `full_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `address` text NOT NULL,
+  `note` text DEFAULT NULL,
+  `payment_method` enum('cod','vnpay'),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `orders`
+ADD COLUMN `bill_id` int(10) UNSIGNED DEFAULT NULL AFTER `user_id`;
+
+ALTER TABLE `orders`
+ADD CONSTRAINT `od_fk_bill` FOREIGN KEY (`bill_id`) REFERENCES `bills` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Chỉ mục cho các bảng đã đổ

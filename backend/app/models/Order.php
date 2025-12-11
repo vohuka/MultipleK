@@ -1,18 +1,19 @@
 <?php
-class Order{
+class Order
+{
     private $conn;
     public function __construct($db)
     {
         $this->conn = $db;
     }
-    public function createOrder($user_id, $transaction_id)
+    public function createOrder($user_id, $status, $transaction_id, $bill_id)
     {
-        $query = "INSERT INTO orders (user_id, transaction_id) VALUES (:user_id, :transaction_id)";
+        $query = "INSERT INTO orders (user_id, status, transaction_id, bill_id) VALUES (:user_id, :status, :transaction_id, :bill_id)";
         $stmt = $this->conn->prepare($query);
-        if($stmt->execute([':user_id' => $user_id, ':transaction_id' => $transaction_id]))
-        {
+        if ($stmt->execute([':user_id' => $user_id, 'status' => $status, ':transaction_id' => $transaction_id, ':bill_id' => $bill_id])) {
             return $this->conn->lastInsertId();
         }
+
         return false;
     }
     public function getOrderByUser($user_id)
@@ -25,14 +26,15 @@ class Order{
         foreach ($orders as &$order) {
             $orderItems = $this->getOrderItems($order['id']);
             $order['items'] = $orderItems;
-            $order['total'] = array_reduce($orderItems, function($carry, $item) {
+            $order['total'] = array_reduce($orderItems, function ($carry, $item) {
                 return $carry + ($item['price_at_order'] * $item['quantity']);
             }, 0);
         }
 
         return $orders;
     }
-    private function getOrderItems($orderId) {
+    private function getOrderItems($orderId)
+    {
         $sql = "SELECT oi.quantity, oi.price_at_order, p.name
                 FROM order_item oi
                 JOIN product p ON oi.product_id = p.id
@@ -42,14 +44,16 @@ class Order{
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAllOrder(){
+    public function getAllOrder()
+    {
         $query = 'SELECT orders.*,users.first_name, users.last_name, users.email, sum(order_item.price_at_order * order_item.quantity) as totalPrice from orders inner JOIN order_item on order_item.order_id = orders.id INNER JOIN users ON users.id = orders.user_id GROUP BY orders.id';
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
-    public function getOrderById($id){
+    public function getOrderById($id)
+    {
         $query = 'select orders.*, users.first_name, users.last_name, users.email, users.region from orders inner join users on users.id = orders.user_id where orders.id = :id';
         $stmt = $this->conn->prepare($query);
 
@@ -59,7 +63,8 @@ class Order{
         return $stmt;
     }
 
-    public function updateStatus($id, $status){
+    public function updateStatus($id, $status)
+    {
         $query = 'update orders set status = :status where id = :id';
         $stmt = $this->conn->prepare($query);
 
@@ -69,12 +74,64 @@ class Order{
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->bindParam(':status', $status, PDO::PARAM_STR);
 
-        if($stmt->execute()){
+        if ($stmt->execute()) {
             return true;
         }
 
         printf("Error: %s.\n", $stmt->errorInfo()[2]);
         return false;
     }
+
+    // Get single order with user verification
+    // Get complete order detail with items and billing info
+    public function getUserOrderDetail($user_id, $order_id)
+    {
+        $query = 'SELECT
+                    orders.*, bills.full_name, bills.email, bills.phone, bills.address,
+                    bills.note, bills.payment_method
+                  FROM orders
+                  INNER JOIN bills ON bills.id = orders.bill_id
+                  WHERE orders.id = :order_id AND orders.user_id = :user_id';
+
+        $stmt = $this->conn->prepare($query);
+        $order_id = htmlspecialchars(strip_tags($order_id));
+        $user_id = htmlspecialchars(strip_tags($user_id));
+
+        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$order) {
+            return null;
+        }
+
+        // Get order items with product details
+        $itemsQuery = 'SELECT
+                        oi.quantity,
+                        oi.price_at_order,
+                        p.name,
+                        p.id as product_id
+                       FROM order_item oi
+                       INNER JOIN product p ON oi.product_id = p.id
+                       WHERE oi.order_id = :order_id';
+
+        $itemsStmt = $this->conn->prepare($itemsQuery);
+        $itemsStmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $itemsStmt->execute();
+        $items = $itemsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Add items to order
+        $order['items'] = $items;
+
+        // Calculate total
+        $order['subtotal'] = array_reduce($items, function ($carry, $item) {
+            return $carry + ($item['price_at_order'] * $item['quantity']);
+        }, 0);
+        $order['shipping_fee'] = 50000;
+        $order['total'] = $order['subtotal'] + $order['shipping_fee'];
+
+        return $order;
+    }
 }
-?>

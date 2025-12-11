@@ -27,7 +27,7 @@ import ProductDetail from "./components/Product/ProductDetail.jsx";
 import ProductList from "./components/Product/ProductList.jsx";
 import ProductUpload from "./components/Product/ProductUpload.jsx";
 import OrderManagement, {
-  OrderDetail,
+	OrderDetail,
 } from "./components/order/OrderManagement.jsx";
 
 import AdminQA from "./components/question_page/adminQA.jsx";
@@ -39,70 +39,90 @@ import UserLayout from "./layouts/UserLayout.jsx";
 
 import Cart from "./components/Cart/Cart.jsx";
 import HistoryCart from "./components/Cart/HistoryCart.jsx";
+import UserOrderDetail from "./components/order/UserOrderDetail.jsx";
 import ProductUpdate from "./components/Product/ProductUpdate.jsx";
 import Login from "./components/login/Login.jsx";
 import Register from "./components/login/Register.jsx";
 function App() {
-  return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<UserLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/historycart" element={<HistoryCart />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/products" element={<ProductPage />} />
-          <Route
-            path="/products/detail/:productId"
-            element={<ProductDetail />}
-          />
-          <Route path="/introduction" element={<IntroPage />} />
+	return (
+		<BrowserRouter>
+			<ScrollToTop />
+			<Routes>
+				<Route path='/' element={<UserLayout />}>
+					<Route path='/' element={<HomePage />} />
+					<Route path='/cart' element={<Cart />} />
+					<Route path='/historycart' element={<HistoryCart />} />
+					<Route path='/orders/:id' element={<UserOrderDetail />} />
+					<Route path='/contact' element={<ContactPage />} />
+					<Route path='/products' element={<ProductPage />} />
+					<Route
+						path='/products/detail/:productId'
+						element={<ProductDetail />}
+					/>
+					<Route path='/introduction' element={<IntroPage />} />
 
-          <Route path="/community" element={<CommunityPage />} />
-          <Route path="/community/:id" element={<CommunityDetailPage />} />
+					<Route path='/community' element={<CommunityPage />} />
+					<Route
+						path='/community/:id'
+						element={<CommunityDetailPage />}
+					/>
 
-          <Route path="/questions" element={<QuestionPage />} />
-          <Route path="/questions/:id" element={<QuestionDetail />} />
+					<Route path='/questions' element={<QuestionPage />} />
+					<Route path='/questions/:id' element={<QuestionDetail />} />
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/user/profile" element={<ProfilePage />} />
-        </Route>
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route
-            path="/admin/products/update/:id"
-            element={<ProductUpdate />}
-          />
-          <Route path="/admin" element={<UsersPage />} />
-          <Route path="/admin/products/list" element={<ProductList />} />
-          <Route path="/admin/products/upload" element={<ProductUpload />} />
+					<Route path='/login' element={<Login />} />
+					<Route path='/register' element={<Register />} />
+					<Route path='/user/profile' element={<ProfilePage />} />
+				</Route>
+				<Route path='/admin' element={<AdminLayout />}>
+					<Route
+						path='/admin/products/update/:id'
+						element={<ProductUpdate />}
+					/>
+					<Route path='/admin' element={<UsersPage />} />
+					<Route
+						path='/admin/products/list'
+						element={<ProductList />}
+					/>
+					<Route
+						path='/admin/products/upload'
+						element={<ProductUpload />}
+					/>
 
-          <Route path="/admin/community" element={<CommunityAdminPage />} />
+					<Route
+						path='/admin/community'
+						element={<CommunityAdminPage />}
+					/>
 
-          <Route path="/admin/questions" element={<AdminQA />} />
-          <Route path="/admin/introduction" element={<AdminIntro />} />
+					<Route path='/admin/questions' element={<AdminQA />} />
+					<Route
+						path='/admin/introduction'
+						element={<AdminIntro />}
+					/>
 
-          <Route path="/admin/profile" element={<ProfilePage />} />
-          <Route path="/admin/contacts" element={<ContactPageAdmin />} />
-          <Route path="/admin/orders" element={<OrderManagement />} />
-          <Route path="/admin/orders/:id" element={<OrderDetail />} />
-        </Route>
-      </Routes>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-    </BrowserRouter>
-  );
+					<Route path='/admin/profile' element={<ProfilePage />} />
+					<Route
+						path='/admin/contacts'
+						element={<ContactPageAdmin />}
+					/>
+					<Route path='/admin/orders' element={<OrderManagement />} />
+					<Route path='/admin/orders/:id' element={<OrderDetail />} />
+				</Route>
+			</Routes>
+			<ToastContainer
+				position='top-right'
+				autoClose={3000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme='colored'
+			/>
+		</BrowserRouter>
+	);
 }
 
 export default App;

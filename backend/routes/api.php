@@ -45,6 +45,7 @@ $router->addRoute('POST', '/cart/buy', 'OrderController', 'buy');
 $router->addRoute('GET', '/cart', 'OrderController', 'getOrderByUser', 'AuthMiddleware');
 $router->addRoute('GET', '/historycart', 'OrderController', 'getOrderByUser');
 
+$router->addRoute('GET', '/order/:id/detail', 'OrderController', 'getUserOrderDetail');
 
 $router->addRoute("GET", '/orders', 'OrderController', 'index');
 $router->addRoute("GET", '/orders/:id', 'OrderController', 'getOrderById');
