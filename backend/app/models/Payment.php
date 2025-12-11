@@ -19,7 +19,7 @@ class Payment
         $vnp_OrderType = "other";
         $vnp_Amount = $amount * 100;
         $vnp_Locale = 'vn';
-        $vnp_BankCode = "";
+        $vnp_BankCode = "ncb";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
         //Add Params of 2.0.1 Version
         $vnp_ExpireDate = $expire;

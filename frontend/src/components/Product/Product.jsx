@@ -252,14 +252,14 @@ const RightSidebar = ({ filters, sortBy }) => {
 							>
 								<div className='card'>
 									<Card className='product-card'>
-										{product.id % 2 === 0 && (
+										{/* {product.id % 2 === 0 && (
 											<div className='prod__tag'>
 												<div className='triangle'></div>
 												<span className='tagTitle'>
 													HOT
 												</span>
 											</div>
-										)}
+										)} */}
 										<Card.Img
 											variant='top'
 											src={product.images?.[0]}
