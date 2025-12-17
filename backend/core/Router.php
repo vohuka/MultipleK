@@ -3,7 +3,21 @@
 class Router
 {
     private $routes = [];
-    private $baseUrl = '/backend';
+    private $baseUrl;
+
+    public function __construct()
+    {
+        // Get base URL from environment or auto-detect
+        $this->baseUrl = $_ENV['BASE_PATH'] ?? '';
+        
+        // If base URL is not set, try to detect it
+        if (empty($this->baseUrl)) {
+            // Check if running in Docker (no /backend prefix)
+            // or local development (with /backend prefix)
+            $scriptName = dirname($_SERVER['SCRIPT_NAME']);
+            $this->baseUrl = ($scriptName === '/' || $scriptName === '\\') ? '' : $scriptName;
+        }
+    }
 
     public function addRoute($method, $path, $controller, $action, $middleware = null)
     {

@@ -91,6 +91,9 @@ $router->addRoute('DELETE', 'admin/users/:id', 'UserController', 'delete', 'Auth
 $router->addRoute('PUT', '/user/update-avatar', 'UserController', 'updateAvatar', 'AuthMiddleware');
 $router->addRoute('PUT', '/user/change-password', 'UserController', 'changePassword');
 
+// ChatBot routes
+$router->addRoute('POST', '/chatbot/message', 'ChatBotController', 'sendMessage');
+$router->addRoute('GET', '/chatbot/models', 'ChatBotController', 'getModels');
 //payment
 $router->addRoute('POST', '/payment/create', 'PaymentController', 'create');
 $router->addRoute('POST', '/payment/verify', 'PaymentController', 'verify');

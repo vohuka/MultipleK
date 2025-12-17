@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import HeaderAdmin from "../components/header/HeaderAdmin";
+import ChatBot from "../components/chat/ChatBot";
 // Sidebar.jsx
 import { useEffect, useState } from "react";
 import {
@@ -144,8 +145,7 @@ const SidebarSubMenu = ({
               key={idx}
               to={link.to}
               className={({ isActive }) =>
-                `text-decoration-none submenu-link ${
-                  isActive ? "fw-bold text-primary" : "text-dark"
+                `text-decoration-none submenu-link ${isActive ? "fw-bold text-primary" : "text-dark"
                 }`
               }
             >
@@ -216,6 +216,7 @@ function AdminLayout() {
           <Outlet />
         </div>
       </div>
+      <ChatBot />
     </>
   );
 }
