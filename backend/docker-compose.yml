@@ -15,7 +15,7 @@ services:
       - BASE_URL=http://localhost:8080
       - JWT_SECRET=KhangLaDanEmCuaKhanh
       - TOGETHER_AI_API_KEY=${TOGETHER_AI_API_KEY}
-      - TOGETHER_MODEL=${TOGETHER_MODEL:-meta-llama/Llama-3.3-70B-Instruct-Turbo-Free}
+      - TOGETHER_MODEL=${TOGETHER_MODEL:-meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo}
     depends_on:
       db:
         condition: service_healthy
@@ -29,7 +29,7 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
       # MYSQL_DATABASE: mk_web
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - ./mk_web.sql:/docker-entrypoint-initdb.d/mk_web.sql
       - db_data:/var/lib/mysql

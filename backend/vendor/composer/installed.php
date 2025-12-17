@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'multiplek/backend',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '3ad30c4a4fd7036cfc07bd5e24b877276638d982',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'reference' => null,
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -20,9 +20,9 @@
             'dev_requirement' => false,
         ),
         'multiplek/backend' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '3ad30c4a4fd7036cfc07bd5e24b877276638d982',
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'reference' => null,
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
