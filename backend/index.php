@@ -15,7 +15,7 @@ $dotenv->load();
 
 // Set CORS headers (but not Content-Type yet - let controllers set it)
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, PATCH');
+header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, PATCH, OPTIONS');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
 date_default_timezone_set('Asia/Ho_Chi_Minh');

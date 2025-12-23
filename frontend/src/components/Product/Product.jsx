@@ -10,11 +10,11 @@ import {
 	faPersonBreastfeeding,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Container, Form, Pagination, Row } from "react-bootstrap";
-import "./Product.css";
 import { NavLink } from "react-router-dom";
 import productService from "../../services/productServices";
+import "./Product.css";
 
 const FilterSection = ({
 	title,
@@ -61,7 +61,15 @@ const LeftSidebar = ({ filters, setFilters }) => {
 		oss: false,
 		pins: false,
 		screen_size: false,
+		usage: false,
 	});
+
+	const usageOptions = [
+		"Văn phòng - Học tập",
+		"Lập trình",
+		"Thiết kế - Đồ họa",
+		"Gaming",
+	];
 
 	const toggleSection = (key) =>
 		setOpenSection((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -90,7 +98,19 @@ const LeftSidebar = ({ filters, setFilters }) => {
 	}, []);
 
 	return (
-		<>
+		<div>
+			<h4 className='filter-title'>Bộ lọc sản phẩm</h4>
+			<br />
+			<FilterSection
+				title='Nhu cầu sử dụng'
+				icon={faLaptop}
+				options={usageOptions}
+				open={openSections.usage}
+				toggle={toggleSection}
+				sectionKey='usage'
+				selected={filters.usage || []}
+				onChange={handleCheckboxChange}
+			/>
 			<FilterSection
 				title='Thương hiệu'
 				icon={faPersonBreastfeeding}
@@ -173,7 +193,7 @@ const LeftSidebar = ({ filters, setFilters }) => {
 				selected={filters.screen_size || []}
 				onChange={handleCheckboxChange}
 			/>
-		</>
+		</div>
 	);
 };
 
@@ -204,26 +224,62 @@ const RightSidebar = ({ filters, sortBy }) => {
 		oss: "os",
 		pins: "pin",
 		screen_size: "screen_size",
-		name,
 	};
 	useEffect(() => {
 		const filtered = allProducts.filter((p) => {
+			if (filters.usage?.length) {
+				const ram = parseInt(p.ram) || 0;
+				const gpu = (p.graphic_card || "").toLowerCase();
+
+				const matchUsage = filters.usage.every((u) => {
+					switch (u) {
+						case "Văn phòng - Học tập":
+							return ram <= 8 && !gpu.includes("rtx") && !gpu.includes("gtx");
+
+						case "Lập trình":
+							return ram > 16;
+
+						case "Thiết kế - Đồ họa":
+							return (
+								gpu.includes("rtx") ||
+								gpu.includes("gtx") ||
+								gpu.includes("radeon")
+							);
+
+						case "Gaming":
+							return (
+								ram >= 16 &&
+								(gpu.includes("rtx") || gpu.includes("gtx"))
+							);
+
+						default:
+						return true;
+					}
+				});
+
+				if (!matchUsage) return false;
+			}
+
 			return Object.keys(filters).every((key) => {
+				if (key === "usage") return true;
 				if (!filters[key]?.length) return true;
+
 				const productKey = filterKeyMap[key];
+				if (!productKey) return true;
+
 				return filters[key].some((f) => {
-					const productValue = p[productKey]
-						?.toString()
-						.toLowerCase();
+					const productValue = p[productKey]?.toString().toLowerCase();
 					const filterValue = f.toString().toLowerCase();
+
 					if (key === "screen_size") {
-						// Loại bỏ dấu " từ filterValue để so sánh chính xác
 						return productValue === filterValue.replace(/"/g, "");
 					}
-					return productValue.includes(filterValue);
+
+					return productValue?.includes(filterValue);
 				});
 			});
 		});
+
 		if (sortBy === "name") {
 			filtered.sort((a, b) => a.name.localeCompare(b.name));
 		} else if (sortBy === "release_date") {
@@ -233,6 +289,7 @@ const RightSidebar = ({ filters, sortBy }) => {
 		} else if (sortBy === "price") {
 			filtered.sort((a, b) => a.price - b.price);
 		}
+
 		const start = (page - 1) * limit;
 		const end = start + limit;
 		setProducts(filtered.slice(start, end));
@@ -252,6 +309,7 @@ const RightSidebar = ({ filters, sortBy }) => {
 							>
 								<div className='card'>
 									<Card className='product-card'>
+										<div className='discount-badge'>GIẢM GIÁ</div>
 										{/* {product.id % 2 === 0 && (
 											<div className='prod__tag'>
 												<div className='triangle'></div>
@@ -276,14 +334,18 @@ const RightSidebar = ({ filters, sortBy }) => {
 												{product.storage}
 											</Card.Text>
 											<Card.Text className='product-price'>
-												Giá:{" "}
-												{product.price
-													? Number(
-															product.price,
-													  ).toLocaleString(
-															"vi-VN",
-													  ) + "₫"
-													: "Liên hệ"}
+												{product.price ? (
+													<>
+														<div className='old-price'>
+															{(Number(product.price) + 2000000).toLocaleString("vi-VN")}₫
+														</div>
+														<div className='new-price'>
+															{Number(product.price).toLocaleString("vi-VN")}₫
+														</div>
+													</>
+												) : (
+													<span>Liên hệ</span>
+												)}
 											</Card.Text>
 										</Card.Body>
 									</Card>

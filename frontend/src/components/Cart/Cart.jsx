@@ -1,22 +1,20 @@
-import { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
-	Container,
-	Row,
-	Col,
-	Table,
 	Button,
+	Card,
+	Col,
+	Container,
 	Form,
 	Image,
-	InputGroup,
-	Card,
+	Row
 } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { CartContext } from "../../Context/CartContext";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CartContext } from "../../Context/CartContext";
 import { BASE_URL } from "../../services/api";
-import PaymentModal from "../modal/PaymentModal";
 import paymentService from "../../services/paymentService";
+import PaymentModal from "../modal/PaymentModal";
 
 export default function Cart() {
 	const navigate = useNavigate();
@@ -409,12 +407,19 @@ function CartView({
 									+
 								</Button>
 							</div>
-							<div>
-								{(item.price * item.quantity).toLocaleString(
-									"vi-VN",
-								)}{" "}
-								đ
+							<div className='d-flex justify-content-end align-items-center gap-2'>
+								<span
+									className='text-danger text-decoration-line-through'
+									style={{ fontSize: "0.9rem" }}
+								>
+									{((item.price + 2000000) * item.quantity).toLocaleString("vi-VN")} đ
+								</span>
+
+								<span className='fw-bold'>
+									{(item.price * item.quantity).toLocaleString("vi-VN")} đ
+								</span>
 							</div>
+
 							<Button
 								variant='danger'
 								onClick={() => removeFromCart(item.id)}
