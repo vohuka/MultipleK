@@ -1,12 +1,3 @@
-import style from "./HomePage.module.css";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { Container, Row, Col, Card, Carousel, Nav } from "react-bootstrap";
-import { NextArrow, PrevArrow } from "./CustomArrow";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { NavLink } from "react-router-dom";
 import {
   faBattery,
   faDesktop,
@@ -16,7 +7,15 @@ import {
   faMicrochip,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
+import { Card, Col, Row } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import productService from "../../services/productServices";
+import { NextArrow, PrevArrow } from "./CustomArrow";
+import style from "./HomePage.module.css";
 
 function SlideImage({ srcBg, srcLap, srcTitle }) {
   return (
@@ -50,7 +49,18 @@ function NewestLap({ products }) {
                 <Card.Title className="text-center">{product.name}</Card.Title>
                 <Card.Text>
                   <h4 className="text-primary fw-bold text-center">
-                    {Number(product.price).toLocaleString("vi-VN")} đ
+                    {product.price ? (
+											<>
+												<div className='old-price'>
+													{(Number(product.price) + 2000000).toLocaleString("vi-VN")}₫
+												</div>
+												<div className='new-price'>
+													{Number(product.price).toLocaleString("vi-VN")}₫
+												</div>
+											</>
+										): (
+											<span>Liên hệ</span>
+										)}
                   </h4>
                   <div className={style.box}>
                     <p>
