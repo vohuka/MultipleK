@@ -10,11 +10,11 @@ import {
 	faPersonBreastfeeding,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Container, Form, Pagination, Row } from "react-bootstrap";
-import "./Product.css";
 import { NavLink } from "react-router-dom";
 import productService from "../../services/productServices";
+import "./Product.css";
 
 const FilterSection = ({
 	title,
@@ -90,7 +90,9 @@ const LeftSidebar = ({ filters, setFilters }) => {
 	}, []);
 
 	return (
-		<>
+		<div>
+			<h4 className='filter-title'>Bộ lọc sản phẩm</h4>
+			<br />
 			<FilterSection
 				title='Thương hiệu'
 				icon={faPersonBreastfeeding}
@@ -173,7 +175,7 @@ const LeftSidebar = ({ filters, setFilters }) => {
 				selected={filters.screen_size || []}
 				onChange={handleCheckboxChange}
 			/>
-		</>
+		</div>
 	);
 };
 
@@ -252,6 +254,7 @@ const RightSidebar = ({ filters, sortBy }) => {
 							>
 								<div className='card'>
 									<Card className='product-card'>
+										<div className='discount-badge'>GIẢM GIÁ</div>
 										{/* {product.id % 2 === 0 && (
 											<div className='prod__tag'>
 												<div className='triangle'></div>
@@ -276,14 +279,18 @@ const RightSidebar = ({ filters, sortBy }) => {
 												{product.storage}
 											</Card.Text>
 											<Card.Text className='product-price'>
-												Giá:{" "}
-												{product.price
-													? Number(
-															product.price,
-													  ).toLocaleString(
-															"vi-VN",
-													  ) + "₫"
-													: "Liên hệ"}
+												{product.price ? (
+													<>
+														<div className='old-price'>
+															{(Number(product.price) + 2000000).toLocaleString("vi-VN")}₫
+														</div>
+														<div className='new-price'>
+															{Number(product.price).toLocaleString("vi-VN")}₫
+														</div>
+													</>
+												) : (
+													<span>Liên hệ</span>
+												)}
 											</Card.Text>
 										</Card.Body>
 									</Card>

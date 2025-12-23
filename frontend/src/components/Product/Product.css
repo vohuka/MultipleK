@@ -236,3 +236,39 @@ body {
 {
   min-height: 0px !important;
 }
+
+.product-price {
+	margin-top: 8px;
+}
+
+.old-price {
+	color: #dc3545;
+	text-decoration: line-through;
+	font-size: 0.9rem;
+}
+
+.new-price {
+	font-weight: bold;
+	font-size: 1.05rem;
+}
+
+.discount-badge {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	background-color: #dc3545;
+	color: #fff;
+	font-size: 0.75rem;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-weight: bold;
+	z-index: 10;
+}
+
+.filter-title {
+	font-size: 1.2rem;
+	font-weight: 700;
+	margin-bottom: 12px;
+	padding-bottom: 8px;
+	border-bottom: 2px solid #000;
+}
