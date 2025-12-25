@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./IntroPage.module.css";
+import { useSEO, SEO_CONFIG } from "../../hooks/useSEO";
 
 // Import images
 import introHeader from "../../assets/img/Intro/intro_header.png";
@@ -8,7 +9,14 @@ import introHeaderXs from "../../assets/img/Intro/kv-about-index-xs.jpg";
 import introService from "../../services/introServices";
 import { BASE_URL } from "../../services/api";
 
+/**
+ * IntroPage component - Company introduction/about page
+ * SEO optimized with proper headings, alt text, and semantic structure
+ */
 export default function IntroPage() {
+  // Apply SEO settings for introduction page
+  useSEO(SEO_CONFIG.introduction);
+
   const [introData, setIntroData] = useState({
     company_overview: {},
     about_us: {},
@@ -25,7 +33,6 @@ export default function IntroPage() {
         const res = await introService.getIntroContent();
 
         if (res.status === "success") {
-          // Organaize data by section_key
           const organizedData = res.data.reduce((acc, item) => {
             acc[item.section_key] = item;
             return acc;
@@ -46,11 +53,19 @@ export default function IntroPage() {
   }, [loading]);
 
   if (loading) {
-    return <div className="text-center p-5">Loading...</div>;
+    return (
+      <div className="text-center p-5" role="status" aria-live="polite">
+        Đang tải...
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="text-center p-5 text-danger">{error}</div>;
+    return (
+      <div className="text-center p-5 text-danger" role="alert">
+        {error}
+      </div>
+    );
   }
 
   function isLoading() {
@@ -58,105 +73,132 @@ export default function IntroPage() {
   }
 
   return (
-    <div className={`${styles.introMain}`}>
-      <header className={styles.aboutHeader}>
+    <main className={styles.introMain}>
+      {/* Hero section with banner */}
+      <section className={styles.aboutHeader} aria-labelledby="intro-heading">
         <div className={styles.introHeader}>
-          <img
-            className={`${styles.introImgHeader} d-none d-lg-block`}
-            src={introHeader}
-          />
-          <img
-            className={`${styles.introImgHeader} d-block d-lg-none`}
-            src={introHeaderXs}
-          />
-          <p className={styles.introHeaderText}>VỀ MK</p>
+          <picture>
+            <source media="(min-width: 992px)" srcSet={introHeader} />
+            <img
+              className={styles.introImgHeader}
+              src={introHeaderXs}
+              alt="Banner giới thiệu công ty Multiple K - Không gian làm việc hiện đại"
+              loading="eager"
+            />
+          </picture>
+          <h1 id="intro-heading" className={styles.introHeaderText}>
+            VỀ MK
+          </h1>
         </div>
-        <div className={styles.description}>
-          <div className={`commonContainer text-center`}>
-            <div className={styles.descriptionTitle}>
+
+        {/* Company overview section */}
+        <section className={styles.description} aria-labelledby="overview-title">
+          <div className="commonContainer text-center">
+            <h2 id="overview-title" className={styles.descriptionTitle}>
               {introData.company_overview?.title || "Tổng quan về công ty"}
-            </div>
-            <div className={styles.descriptionText}>
+            </h2>
+            <p className={styles.descriptionText}>
               {introData.company_overview?.content || isLoading()}
-            </div>
+            </p>
           </div>
-        </div>
-        <div className={`commonContainer`}>
+        </section>
+
+        {/* Service cards section */}
+        <section className="commonContainer" aria-label="Các dịch vụ của chúng tôi">
           <div className={`${styles.introCard} row`}>
-            <div className="col-lg-4">
+            {/* About Us Card */}
+            <article className="col-lg-4">
               <div>
-                <div className={`${styles.introCardTitle} text-center`}>
+                <h3 className={`${styles.introCardTitle} text-center`}>
                   {introData.about_us?.title || "Về chúng tôi"}
-                </div>
-                <div>
+                </h3>
+                <figure>
                   <img
                     className={styles.introCardImg}
                     src={`${BASE_URL}/${introData.about_us?.image_path}`}
-                  ></img>
-                </div>
-                <div className={styles.introCardText}>
+                    alt={`Hình ảnh minh họa: ${introData.about_us?.title || "Về chúng tôi"} - Đội ngũ Multiple K`}
+                    loading="lazy"
+                  />
+                </figure>
+                <p className={styles.introCardText}>
                   {introData.about_us?.content || isLoading()}
-                </div>
+                </p>
               </div>
-            </div>
-            <div className="col-lg-4">
+            </article>
+
+            {/* One-Step Service Card */}
+            <article className="col-lg-4">
               <div>
-                <div className={`${styles.introCardTitle} text-center`}>
+                <h3 className={`${styles.introCardTitle} text-center`}>
                   {introData.one_step_service?.title || "Dịch vụ MỘT CHẠM"}
-                </div>
-                <div>
+                </h3>
+                <figure>
                   <img
                     className={styles.introCardImg}
                     src={`${BASE_URL}/${introData.one_step_service?.image_path}`}
-                  ></img>
-                </div>
-                <div className={styles.introCardText}>
+                    alt={`Hình ảnh minh họa: ${introData.one_step_service?.title || "Dịch vụ một chạm"} - Quy trình nhanh chóng`}
+                    loading="lazy"
+                  />
+                </figure>
+                <p className={styles.introCardText}>
                   {introData.one_step_service?.content || isLoading()}
-                </div>
+                </p>
               </div>
-            </div>
-            <div className="col-lg-4">
+            </article>
+
+            {/* Sustainability Card */}
+            <article className="col-lg-4">
               <div>
-                <div className={`${styles.introCardTitle} text-center`}>
+                <h3 className={`${styles.introCardTitle} text-center`}>
                   {introData.sustainability?.title || "Bền vững"}
-                </div>
-                <div>
+                </h3>
+                <figure>
                   <img
                     className={styles.introCardImg}
                     src={`${BASE_URL}/${introData.sustainability?.image_path}`}
-                  ></img>
-                </div>
-                <div className={styles.introCardText}>
+                    alt={`Hình ảnh minh họa: ${introData.sustainability?.title || "Phát triển bền vững"} - Cam kết của Multiple K`}
+                    loading="lazy"
+                  />
+                </figure>
+                <p className={styles.introCardText}>
                   {introData.sustainability?.content || isLoading()}
-                </div>
+                </p>
               </div>
-            </div>
+            </article>
           </div>
-        </div>
-        <figure className={`${styles.contactUsImg}`}>
+        </section>
+
+        {/* Contact banner - mobile only */}
+        <figure className={styles.contactUsImg} aria-hidden="true">
           <img
             className={`${styles.contactUsImgMobile} d-block d-lg-none`}
             src={`${BASE_URL}/${introData.contact_us?.image_path}`}
-          ></img>
+            alt="Banner liên hệ Multiple K"
+            loading="lazy"
+          />
         </figure>
-        <div className={styles.contactUs}>
+
+        {/* Contact section */}
+        <section className={styles.contactUs} aria-labelledby="contact-title">
           <div className="commonContainer">
-            <div className={`${styles.contactUsBlock}`}>
-              <div className={styles.contactUsTitle}>
-                {introData.contact_us?.title || "Contact Us"}
-              </div>
-              <div className={styles.contactUsText}>
+            <div className={styles.contactUsBlock}>
+              <h2 id="contact-title" className={styles.contactUsTitle}>
+                {introData.contact_us?.title || "Liên Hệ"}
+              </h2>
+              <p className={styles.contactUsText}>
                 {introData.contact_us?.content || isLoading()}
-              </div>
-              <div className={styles.contactUsLink}>
+              </p>
+              <nav className={styles.contactUsLink} aria-label="Liên kết liên hệ">
                 <div className={styles.contactUsButton}>
                   <NavLink
                     className={`${styles.supportLink} contactUsLinkSupport`}
                     to="/questions"
+                    aria-label="Đến trang hỏi đáp và hỗ trợ"
                   >
-                    Our Support{" "}
+                    Hỗ Trợ{" "}
                     <i
                       className={`${styles.contactUsIcon} fa-solid fa-chevron-right`}
+                      aria-hidden="true"
                     ></i>
                   </NavLink>
                 </div>
@@ -164,18 +206,20 @@ export default function IntroPage() {
                   <NavLink
                     className={`${styles.supportLink} contactUsLinkContact`}
                     to="/contact"
+                    aria-label="Đến trang thông tin liên hệ"
                   >
                     Liên hệ với chúng tôi{" "}
                     <i
                       className={`${styles.contactUsIcon} fa-solid fa-chevron-right`}
+                      aria-hidden="true"
                     ></i>
                   </NavLink>
                 </div>
-              </div>
+              </nav>
             </div>
           </div>
-        </div>
-      </header>
-    </div>
+        </section>
+      </section>
+    </main>
   );
 }

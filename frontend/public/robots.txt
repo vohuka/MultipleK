@@ -1,0 +1,21 @@
+# Multiple K - Robots.txt
+# Purpose: Instruct search engine crawlers on which pages to crawl/index
+
+User-agent: *
+Allow: /
+
+# Disallow admin and authentication pages from indexing
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+
+# Allow important assets for rendering
+Allow: /logo/
+Allow: /images/
+Allow: /Intro/
+
+# Sitemap location (update domain when deployed)
+Sitemap: https://multiplek.com/sitemap.xml
+
+# Crawl-delay for polite crawling (optional)
+Crawl-delay: 1
