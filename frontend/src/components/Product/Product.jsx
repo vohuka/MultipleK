@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { Card, Col, Container, Form, Pagination, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import productService from "../../services/productServices";
+import { useSEO, SEO_CONFIG } from "../../hooks/useSEO";
 import "./Product.css";
 
 const FilterSection = ({
@@ -301,26 +302,20 @@ const RightSidebar = ({ filters, sortBy }) => {
 			<div className='container-card'>
 				<Row>
 					{products.map((product) => (
-						<Col lg={4} md={6} sm={12}>
+						<Col lg={4} md={6} sm={12} key={product.id}>
 							<NavLink
-								key={product.id}
 								to={`/products/detail/${product.id}`}
 								className='text-decoration-none'
+								aria-label={`Xem chi tiết ${product.name}`}
 							>
-								<div className='card'>
+								<article className='card'>
 									<Card className='product-card'>
-										<div className='discount-badge'>GIẢM GIÁ</div>
-										{/* {product.id % 2 === 0 && (
-											<div className='prod__tag'>
-												<div className='triangle'></div>
-												<span className='tagTitle'>
-													HOT
-												</span>
-											</div>
-										)} */}
+										<div className='discount-badge' aria-label="Sản phẩm đang giảm giá">GIẢM GIÁ</div>
 										<Card.Img
 											variant='top'
 											src={product.images?.[0]}
+											alt={`Laptop ${product.name} - ${product.brand || 'Thương hiệu'} với CPU ${product.cpu || 'N/A'}`}
+											loading="lazy"
 										/>
 										<Card.Body>
 											{/* <Form.Check label="Thêm vào phần so sánh" /> */}
@@ -349,12 +344,14 @@ const RightSidebar = ({ filters, sortBy }) => {
 											</Card.Text>
 										</Card.Body>
 									</Card>
-								</div>
+								</article>
 							</NavLink>
 						</Col>
 					))}
 				</Row>
 			</div>
+
+			{/* Pagination with accessibility */}
 
 			<div className='pagination-container mk'>
 				<Pagination>
@@ -384,14 +381,17 @@ const RightSidebar = ({ filters, sortBy }) => {
 };
 
 const ProductPage = () => {
+	// Apply SEO settings for products page
+	useSEO(SEO_CONFIG.products);
+
 	const [filters, setFilters] = useState({});
 	const [sortBy, setSortBy] = useState("");
 	return (
-		<div className='product-page'>
+		<main className='product-page'>
 			<div className='main-products px-0'>
 				<Container fluid>
-					<div className='product-header'>
-						<h2>MÁY TÍNH XÁCH TAY</h2>
+					<header className='product-header'>
+						<h1 className="h2">MÁY TÍNH XÁCH TAY</h1>
 						<div className='sort-buttons'>
 							<Form.Select
 								value={sortBy}
@@ -406,21 +406,25 @@ const ProductPage = () => {
 								<option value='price'>Giá tiền(Rẻ nhất)</option>
 							</Form.Select>
 						</div>
-					</div>
+					</header>
 				</Container>
 				<Row className='row-products'>
 					<Col lg={3} md={4} sm={12} className='leftsidebar-product'>
-						<LeftSidebar
-							filters={filters}
-							setFilters={setFilters}
-						/>
+						<aside aria-label="Bộ lọc sản phẩm">
+							<LeftSidebar
+								filters={filters}
+								setFilters={setFilters}
+							/>
+						</aside>
 					</Col>
 					<Col lg={9} md={8} sm={12} className='rightsidebar-product'>
-						<RightSidebar filters={filters} sortBy={sortBy} />
+						<section aria-label="Danh sách sản phẩm">
+							<RightSidebar filters={filters} sortBy={sortBy} />
+						</section>
 					</Col>
 				</Row>
 			</div>
-		</div>
+		</main>
 	);
 };
 

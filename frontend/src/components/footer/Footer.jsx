@@ -3,14 +3,18 @@ import "./Footer.css";
 import { useMediaQuery } from "react-responsive";
 import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter } from "react-icons/io";
 
-function FooterItem({ text, link, isSmaller }) {
+/**
+ * FooterItem component with proper link handling
+ * Uses # placeholder for non-functional links to avoid SEO penalties
+ */
+function FooterItem({ text, link = "#", isSmaller }) {
   return (
     <li
       className={`py-2 ${
         isSmaller ? "footerSubMenuExpand" : "footerSubMenu-item"
       }`}
     >
-      <a href="" className="" target="_self">
+      <a href={link} aria-label={text}>
         {text}
       </a>
     </li>
@@ -211,24 +215,33 @@ export default function Footer() {
             <span className="address-label">Email: </span>
             <span className="address-line">contact@multiplek.com</span>
           </p>
-          <div className="social-links">
-            <IoLogoInstagram className="social-icon"></IoLogoInstagram>
-            <IoLogoFacebook className="social-icon"></IoLogoFacebook>
-            <IoLogoTwitter className="social-icon"></IoLogoTwitter>
-          </div>
+          <nav className="social-links" aria-label="Mạng xã hội">
+            <a href="https://instagram.com/multiplek" aria-label="Theo dõi Multiple K trên Instagram" target="_blank" rel="noopener noreferrer">
+              <IoLogoInstagram className="social-icon" aria-hidden="true" />
+            </a>
+            <a href="https://facebook.com/multiplek" aria-label="Theo dõi Multiple K trên Facebook" target="_blank" rel="noopener noreferrer">
+              <IoLogoFacebook className="social-icon" aria-hidden="true" />
+            </a>
+            <a href="https://twitter.com/multiplek" aria-label="Theo dõi Multiple K trên Twitter" target="_blank" rel="noopener noreferrer">
+              <IoLogoTwitter className="social-icon" aria-hidden="true" />
+            </a>
+          </nav>
         </div>
 
-        {/* 2 hình bên phải (từ folder public) */}
-        <div className="badges-section">
-          {/* Hình 1: Giả sử là logo verified badge, đường dẫn từ public */}
+        {/* Certification badges */}
+        <div className="badges-section" role="img" aria-label="Chứng nhận và bảo vệ">
           <img
             src="/da-dang-ky.png"
-            alt="Verified Badge"
+            alt="Đã đăng ký với Bộ Công Thương - Chứng nhận website thương mại điện tử"
             className="verified-badge"
+            loading="lazy"
           />
-
-          {/* Hình 2: Giả sử là logo DMCA, đường dẫn từ public */}
-          <img src="/dmca.png" alt="DMCA Protected" className="dmca-badge" />
+          <img
+            src="/dmca.png"
+            alt="DMCA Protected - Bảo vệ bản quyền nội dung"
+            className="dmca-badge"
+            loading="lazy"
+          />
         </div>
       </div>
     </footer>
