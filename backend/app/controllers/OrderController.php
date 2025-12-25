@@ -16,16 +16,42 @@ class OrderController
 
     public function buy()
     {
-        AuthMiddleware::verifyToken();
-        if (!isset($_SERVER['HTTP_USER_ID'])) {
-            http_response_code(401);
-            echo json_encode(['message' => 'Unauthorized']);
+        // Ensure JSON response
+        header('Content-Type: application/json');
+
+        if (!AuthMiddleware::verifyToken()) {
             return;
         }
-        $data = json_decode(file_get_contents("php://input"), true);
+        
+        $input = file_get_contents("php://input");
+        $data = json_decode($input, true);
+
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Invalid JSON data']);
+            return;
+        }
 
         //xu ly tạo hóa đơn
+        if (!isset($data['bill'])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Missing bill data']);
+            return;
+        }
+
         $billData = json_decode($data['bill'], true);
+        
+        if (!$billData) {
+            // Fallback if bill is already an object (not stringified) or invalid
+            if (is_array($data['bill'])) {
+                $billData = $data['bill'];
+            } else {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'message' => 'Invalid bill data format']);
+                return;
+            }
+        }
+
         $bill_id = $this->billModel->create($billData);
         if (!$bill_id) {
             http_response_code(500);
