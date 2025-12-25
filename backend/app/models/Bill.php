@@ -20,12 +20,12 @@ class Bill
         $stmt = $this->conn->prepare($query);
 
         // Clean data
-        $data['full_name'] = htmlspecialchars(strip_tags($data['full_name']));
-        $data['email'] = htmlspecialchars(strip_tags($data['email']));
-        $data['phone'] = htmlspecialchars(strip_tags($data['phone']));
-        $data['address'] = htmlspecialchars(strip_tags($data['address']));
-        $data['note'] = $data['note'] ? htmlspecialchars(strip_tags($data['note'])) : null;
-        $data['payment_method'] = htmlspecialchars(strip_tags($data['payment_method']));
+        $data['full_name'] = htmlspecialchars(strip_tags($data['full_name'] ?? ''));
+        $data['email'] = htmlspecialchars(strip_tags($data['email'] ?? ''));
+        $data['phone'] = htmlspecialchars(strip_tags($data['phone'] ?? ''));
+        $data['address'] = htmlspecialchars(strip_tags($data['address'] ?? ''));
+        $data['note'] = !empty($data['note']) ? htmlspecialchars(strip_tags($data['note'])) : null;
+        $data['payment_method'] = htmlspecialchars(strip_tags($data['payment_method'] ?? 'cod'));
 
         // Bind values
         $stmt->bindParam(':full_name', $data['full_name']);

@@ -1,6 +1,9 @@
 <?php
 // app/controllers/ChatBotController.php
 
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../config/Database.php';
+
 class ChatBotController
 {
     /**
@@ -47,11 +50,29 @@ class ChatBotController
                 return;
             }
 
+            // Get dynamic context from DB
+            $dbContext = $this->getDatabaseContext();
+
             // Prepare messages for Together AI
+            $systemPrompt = "Bạn là trợ lý ảo chăm sóc khách hàng cho website bán laptop cũ MK (MultipleK). 
+            Nhiệm vụ của bạn là trả lời các câu hỏi của khách hàng dựa trên dữ liệu được cung cấp dưới đây.
+            
+            HƯỚNG DẪN TRẢ LỜI:
+            1. Chỉ sử dụng thông tin trong phần [DỮ LIỆU CỬA HÀNG] để trả lời.
+            2. Nếu khách hỏi về sản phẩm, hãy giới thiệu các laptop có trong danh sách.
+            3. Nếu khách hỏi về chính sách, bảo hành, hãy dùng thông tin FAQ.
+            4. Nếu thông tin không có trong dữ liệu, hãy lịch sự nói rằng bạn chưa có thông tin đó và gợi ý khách hàng liên hệ hotline hoặc fanpage.
+            5. Trả lời ngắn gọn, súc tích, thân thiện.
+            6. Luôn trả lời bằng Tiếng Việt trừ khi khách hỏi bằng tiếng Anh.
+
+            [DỮ LIỆU CỬA HÀNG START]
+            " . $dbContext . "
+            [DỮ LIỆU CỬA HÀNG END]";
+
             $messages = [
                 [
                     'role' => 'system',
-                    'content' => 'You are a helpful customer service assistant for an e-commerce website. Answer questions about products, orders, pricing, shipping, and general inquiries. Be polite, concise, and helpful. Respond in Vietnamese if the user writes in Vietnamese, otherwise respond in English.'
+                    'content' => $systemPrompt
                 ]
             ];
 
@@ -201,6 +222,67 @@ class ChatBotController
             'success' => false,
             'error' => 'Invalid response from AI'
         ];
+    }
+
+    /**
+     * Get context data from database for the AI prompt
+     */
+    private function getDatabaseContext()
+    {
+        $context = "";
+        
+        try {
+            $database = new Database();
+            $db = $database->connect();
+
+            // 1. Get Products (Limit to avoid token overflow)
+            $stmt = $db->prepare("SELECT name, brand, price, cpu, ram, storage, graphic_card FROM product WHERE stock > 0 LIMIT 15");
+            $stmt->execute();
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            if (!empty($products)) {
+                $context .= "\n[DANH SÁCH SẢN PHẨM LAPTOP CŨ ĐANG BÁN]\n";
+                foreach ($products as $p) {
+                    $price = number_format($p['price'], 0, ',', '.');
+                    $context .= "- {$p['name']} ({$p['brand']}): {$price} VNĐ. Cấu hình: CPU {$p['cpu']}, RAM {$p['ram']}, SSD/HDD {$p['storage']}, VGA {$p['graphic_card']}.\n";
+                }
+            }
+
+            // 2. Get FAQs
+            $stmt = $db->prepare("
+                SELECT q.title, a.content 
+                FROM questions q 
+                JOIN answers a ON q.id = a.question_id 
+                WHERE q.status = 'approved'
+                LIMIT 10
+            ");
+            $stmt->execute();
+            $faqs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (!empty($faqs)) {
+                $context .= "\n[CÂU HỎI THƯỜNG GẶP (FAQ)]\n";
+                foreach ($faqs as $f) {
+                    $context .= "Q: {$f['title']}\nA: {$f['content']}\n";
+                }
+            }
+            
+            // 3. Get Company Info
+            $stmt = $db->prepare("SELECT title, content FROM intro_content WHERE section_key IN ('company_overview', 'about_us', 'contact_us')");
+            $stmt->execute();
+            $intro = $stmt->fetchAll(PDO::FETCH_ASSOC);
+             if (!empty($intro)) {
+                $context .= "\n[THÔNG TIN CỬA HÀNG]\n";
+                foreach ($intro as $i) {
+                    $context .= "{$i['title']}: " . strip_tags($i['content']) . "\n";
+                }
+            }
+
+        } catch (Exception $e) {
+            error_log("Error fetching DB context: " . $e->getMessage());
+            return "Không thể lấy dữ liệu từ database.";
+        }
+
+        return $context;
     }
 
     /**
