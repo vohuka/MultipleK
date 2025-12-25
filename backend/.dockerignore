@@ -3,3 +3,4 @@
 *.md
 docker-compose.yml
 Dockerfile
+vendor/
