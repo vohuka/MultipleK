@@ -27,3 +27,6 @@ access_log
 *.tmp
 *.temp
 *.cache
+
+# Composer dependencies
+vendor/

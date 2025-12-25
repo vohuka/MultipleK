@@ -24,7 +24,7 @@ RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/Allo
 COPY composer.json composer.lock* ./
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction || true
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Copy the rest of the application
 COPY . .
